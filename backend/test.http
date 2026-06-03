@@ -1,0 +1,12 @@
+POST http://localhost:3000/advertisements
+Content-Type: application/json
+
+{
+  "brandName": "Adidas",
+  "logoPath": "adidas_logo.png",
+  "imagePath": "adidas_banner.png"
+}
+
+###
+
+GET http://localhost:3000/advertisements/2
