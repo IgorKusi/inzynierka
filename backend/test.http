@@ -3,10 +3,23 @@ Content-Type: application/json
 
 {
   "brandName": "Adidas",
-  "logoPath": "adidas_logo.png",
-  "imagePath": "adidas_banner.png"
+  "logoPath": "/uploads/logo.png",
+  "bannerPath": "/uploads/banner.png",
+  "discountCode": "ADIDAS20"
 }
 
 ###
 
-GET http://localhost:3000/advertisements/2
+GET http://localhost:3000/advertisements/game/3
+
+###
+
+POST http://localhost:3000/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="test_logo.png"
+Content-Type: image/png
+
+< ./uploads/test_logo.png
+--WebAppBoundary--

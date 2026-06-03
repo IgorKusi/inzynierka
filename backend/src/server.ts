@@ -1,71 +1,42 @@
 import "dotenv/config";
 
+import multer from "multer";
+import path from "path";
 import express from "express";
 import cors from "cors";
 
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "./generated/prisma/client.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import advertisementRoutes from "./routes/advertisementRoutes.js";
 
 const app = express();
-const adapter = new PrismaPg(process.env.DATABASE_URL!);
 
-const prisma = new PrismaClient({
-    adapter
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "uploads/");
+    },
+
+    filename: (req, file, cb) => {
+        cb(
+            null,
+            `${Date.now()}-${file.originalname}`
+        );
+    }
 });
+
+const upload = multer({
+    storage
+});
+
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/advertisements", advertisementRoutes);
+app.use("/upload", uploadRoutes);
 
 app.get("/", (req, res) => {
     res.send("AdGame Backend Running");
-});
-
-app.get("/advertisements/:id", async (req, res) => {
-    try {
-
-        const id = Number(req.params.id);
-
-        const advertisement = await prisma.advertisement.findUnique({
-            where: {
-                id
-            }
-        });
-
-        if (!advertisement) {
-            return res.status(404).json({
-                error: "Advertisement not found"
-            });
-        }
-
-        res.json(advertisement);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error: "Database error"
-        });
-    }
-});
-
-app.post("/advertisements", async (req, res) => {
-    try {
-
-        const { brandName, logoPath, imagePath } = req.body;
-
-        const advertisement = await prisma.advertisement.create({
-            data: {
-                brandName,
-                logoPath,
-                imagePath
-            }
-        });
-
-        res.json(advertisement);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Database error" });
-    }
 });
 
 const PORT = 3000;

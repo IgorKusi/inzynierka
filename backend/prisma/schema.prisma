@@ -8,9 +8,16 @@ datasource db {
 }
 
 model Advertisement {
-  id         Int      @id @default(autoincrement())
-  brandName  String
-  logoPath   String
-  imagePath  String
-  createdAt  DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+
+  brandName     String
+
+  logoPath      String
+  bannerPath    String
+
+  discountCode  String?
+
+  qrCodeUrl     String?
+
+  createdAt     DateTime @default(now())
 }
