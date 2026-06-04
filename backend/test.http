@@ -3,8 +3,8 @@ Content-Type: application/json
 
 {
   "brandName": "Adidas",
-  "logoPath": "/uploads/logo.png",
-  "bannerPath": "/uploads/banner.png",
+  "logoPath": "/uploads/1780593091546-test_logo.png",
+  "bannerPath": "/uploads/test_banner.png",
   "discountCode": "ADIDAS20"
 }
 
@@ -12,6 +12,8 @@ Content-Type: application/json
 
 GET http://localhost:3000/advertisements/game/3
 
+###
+GET http://localhost:3000/advertisements/game/4
 ###
 
 POST http://localhost:3000/upload
