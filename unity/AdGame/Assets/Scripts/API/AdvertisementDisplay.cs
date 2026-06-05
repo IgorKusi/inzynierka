@@ -1,75 +1,76 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+
+public enum AdvertisementImageType
+{
+    Logo,
+    Banner
+}
 
 public class AdvertisementDisplay : MonoBehaviour
 {
     [SerializeField]
-    private int advertisementId = 4;
-
-    [SerializeField]
     private Renderer targetRenderer;
 
-    private const string BaseUrl =
-        "http://localhost:3000/advertisements/game/";
+    [SerializeField]
+    private AdvertisementImageType imageType =
+        AdvertisementImageType.Logo;
 
     private void Start()
     {
-        StartCoroutine(LoadAdvertisement());
+        AdvertisementManager.Instance
+            .AdvertisementLoaded +=
+                ApplyAdvertisement;
+
+        if (
+            AdvertisementManager.Instance
+                .CurrentAdvertisement != null
+        )
+        {
+            ApplyAdvertisement();
+        }
     }
 
-    private IEnumerator LoadAdvertisement()
+    private void Awake()
     {
-        string url =
-            BaseUrl + advertisementId;
-
-        using UnityWebRequest request =
-            UnityWebRequest.Get(url);
-
-        yield return request.SendWebRequest();
-
-        if (request.result != UnityWebRequest.Result.Success)
+        if (targetRenderer == null)
         {
-            Debug.LogError(request.error);
-            yield break;
+           targetRenderer =
+                GetComponent<Renderer>();
         }
-
-        string json =
-            request.downloadHandler.text;
-
-        Advertisement advertisement =
-            JsonUtility.FromJson<Advertisement>(json);
-
-        Debug.Log($"Brand: {advertisement.brandName}");
-
-        string logoUrl =
-            "http://localhost:3000" +
-            advertisement.logoPath;
-
-        StartCoroutine(
-            DownloadTexture(logoUrl)
-        );
     }
 
-    private IEnumerator DownloadTexture(string imageUrl)
+    private void OnDestroy()
     {
-        using UnityWebRequest request =
-            UnityWebRequestTexture.GetTexture(imageUrl);
-
-        yield return request.SendWebRequest();
-
-        if (request.result != UnityWebRequest.Result.Success)
+        if (AdvertisementManager.Instance != null)
         {
-            Debug.LogError(request.error);
-            yield break;
+            AdvertisementManager.Instance
+                .AdvertisementLoaded -=
+                    ApplyAdvertisement;
         }
+    }
 
+    private void ApplyAdvertisement()
+    {
+        if (targetRenderer == null)
+        {
+            Debug.LogError($"No Renderer found on {gameObject.name}");
+            return; 
+        }
         Texture2D texture =
-            DownloadHandlerTexture.GetContent(request);
+            imageType == AdvertisementImageType.Logo
+                ? AdvertisementManager.Instance.LogoTexture
+                : AdvertisementManager.Instance.BannerTexture;
+
+        if (texture == null)
+        {
+            return;
+        }
 
         targetRenderer.material.mainTexture =
             texture;
 
-        Debug.Log("Advertisement applied");
+        Debug.Log(
+            $"Advertisement applied ({imageType})"
+        );
     }
 }
