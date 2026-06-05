@@ -244,8 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef304241e26dc34daa4394ec477daf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AdvertisementDisplay
-  advertisementId: 4
   targetRenderer: {fileID: 1378250}
+  imageType: 0
 --- !u!1 &306845514
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,6 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 306845516}
+  - component: {fileID: 306845517}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -277,6 +278,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &306845517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306845514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ec8677cd5107d4094555d7beb9efe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AdvertisementManager
+  editorLaunchUrl: ?ad=4
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
