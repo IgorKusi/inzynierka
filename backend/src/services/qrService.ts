@@ -5,7 +5,7 @@ export const generateQRCode = async (
 ) => {
 
     const gameUrl =
-        `http://localhost:3000/ad/${advertisementId}`;
+        `http://localhost:5173/play?ad=${advertisementId}`;
 
     const qrCodeDataUrl =
         await QRCode.toDataURL(gameUrl);
