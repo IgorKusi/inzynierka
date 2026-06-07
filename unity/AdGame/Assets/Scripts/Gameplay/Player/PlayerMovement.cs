@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Lane Movement")]
     [SerializeField]
-    private float laneOffset = 3f;
+    private float laneOffset = 2.5f;
 
     [SerializeField]
     private float laneChangeSpeed = 10f;
@@ -17,6 +17,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (currentLane == 0)
+        {
+            //wait for player 1st input to start game
+            HandleLaneInput();
+            return;
+        }
+        
         MoveForward();
 
         HandleLaneInput();
@@ -39,14 +46,7 @@ public class PlayerMovement : MonoBehaviour
             Input.GetKeyDown(KeyCode.LeftArrow)
         )
         {
-            currentLane--;
-
-            currentLane =
-                Mathf.Clamp(
-                    currentLane,
-                    -1,
-                    1
-                );
+            currentLane = -1;
         }
 
         if (
@@ -54,14 +54,7 @@ public class PlayerMovement : MonoBehaviour
             Input.GetKeyDown(KeyCode.RightArrow)
         )
         {
-            currentLane++;
-
-            currentLane =
-                Mathf.Clamp(
-                    currentLane,
-                    -1,
-                    1
-                );
+            currentLane = 1;
         }
     }
 
