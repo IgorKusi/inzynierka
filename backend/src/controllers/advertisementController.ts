@@ -118,3 +118,59 @@ export const getGameAdvertisement = async (
         });
     }
 };
+export const getAllAdvertisements = async (
+    req: any,
+    res: any
+) => {
+
+    try {
+
+        const advertisements =
+            await prisma.advertisement.findMany({
+
+                orderBy: {
+                    id: "desc"
+                }
+            });
+
+        res.json(advertisements);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "Database error"
+        });
+    }
+};
+export const deleteAdvertisement = async (
+    req: any,
+    res: any
+) => {
+
+    try {
+
+        const id =
+            Number(req.params.id);
+
+        await prisma.advertisement.delete({
+
+            where: {
+                id
+            }
+        });
+
+        res.json({
+            success: true
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "Database error"
+        });
+    }
+};

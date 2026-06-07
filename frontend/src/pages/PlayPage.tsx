@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import UnityContainer from "../components/UnityContainer";
 
 export default function PlayPage() {
 
@@ -48,9 +49,7 @@ export default function PlayPage() {
                 {advertisementId}
             </h2>
 
-            <p>
-                Unity game will be here
-            </p>
+            <UnityContainer />
 
         </div>
     );

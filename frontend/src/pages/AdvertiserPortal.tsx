@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { Advertisement } from "../types/Advertisement";
+const SERVER_URL =
+    "http://localhost:3000";
 
 function AdvertiserPortal() {
 
@@ -13,6 +16,9 @@ function AdvertiserPortal() {
 
     const [qrCode, setQrCode] =
         useState("");
+
+    const [advertisements, setAdvertisements] =
+        useState<Advertisement[]>([]);
 
     const uploadImage = async (
         file: File
@@ -37,6 +43,20 @@ function AdvertiserPortal() {
 
         return response.json();
     };
+
+    const loadAdvertisements =
+        async () => {
+
+            const response =
+                await fetch(
+                    "http://localhost:3000/advertisements"
+                );
+
+            const data =
+                await response.json();
+
+            setAdvertisements(data);
+        };
 
     const createAdvertisement =
         async () => {
@@ -85,6 +105,24 @@ function AdvertiserPortal() {
             setQrCode(
                 data.qrCode
             );
+            loadAdvertisements();
+        };
+    useEffect(() => {
+
+        loadAdvertisements();
+
+    }, []);
+    const deleteAdvertisement =
+        async (id: number) => {
+
+            await fetch(
+                `http://localhost:3000/advertisements/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            loadAdvertisements();
         };
 
     return (
@@ -172,6 +210,100 @@ function AdvertiserPortal() {
                 )
             }
 
+            <hr />
+
+            <h2>Advertisements</h2>
+
+            {
+                advertisements.map(
+                    advertisement => (
+
+                        <div
+                            key={advertisement.id}
+                            style={{
+                                border: "1px solid white",
+                                margin: "10px",
+                                padding: "20px"
+                            }}
+                        >
+                            <h3>
+                                {advertisement.brandName}
+                            </h3>
+
+                            <p>
+                                ID:
+                                {" "}
+                                {advertisement.id}
+                            </p>
+
+                            <div>
+
+                                <p>
+                                    Logo
+                                </p>
+
+                                <img
+                                    src={
+                                        SERVER_URL +
+                                        advertisement.logoPath
+                                    }
+                                    alt="Logo"
+                                    style={{
+                                        width: "150px"
+                                    }}
+                                />
+
+                            </div>
+
+                            <div>
+
+                                <p>
+                                    Banner
+                                </p>
+
+                                <img
+                                    src={
+                                        SERVER_URL +
+                                        advertisement.bannerPath
+                                    }
+                                    alt="Banner"
+                                    style={{
+                                        width: "300px"
+                                    }}
+                                />
+
+                            </div>
+
+                            <p>
+                                QR:
+                                {" "}
+                                {advertisement.qrCodeUrl}
+                            </p>
+
+                            <button
+                                onClick={() =>
+                                    navigator.clipboard.writeText(
+                                        advertisement.qrCodeUrl ??
+                                        ""
+                                    )
+                                }
+                            >
+                                Copy QR Link
+                            </button>
+                            <button
+                                onClick={() =>
+                                    deleteAdvertisement(
+                                        advertisement.id
+                                    )
+                                }
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+                    )
+                )
+            }
         </div>
     );
 }

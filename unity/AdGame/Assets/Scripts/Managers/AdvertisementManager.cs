@@ -69,37 +69,37 @@ public class AdvertisementManager : MonoBehaviour
     {
     #if UNITY_WEBGL && !UNITY_EDITOR
 
-            string advertisementId =
-                GetAdvertisementIdFromBrowser();
+        string advertisementId =
+            GetAdvertisementIdFromBrowser();
 
-            if (
-                !string.IsNullOrEmpty(advertisementId) &&
-                int.TryParse(
-                    advertisementId,
-                    out int parsedId
-                )
+        if (
+            !string.IsNullOrEmpty(advertisementId) &&
+            int.TryParse(
+                advertisementId,
+                out int parsedId
             )
-            {
-                CurrentAdvertisementId =
-                    parsedId;
-            }
-            else
-            {
-                CurrentAdvertisementId =
-                    editorAdvertisementId;
-            }
+        )
+        {
+            CurrentAdvertisementId =
+                parsedId;
+        }
+        else
+        {
+            CurrentAdvertisementId =
+                1;
+        }
 
     #else
 
             CurrentAdvertisementId =
-                editorAdvertisementId;
+                GetAdvertisementIdFromUrl();
 
     #endif
 
             Debug.Log(
                 $"Advertisement ID: {CurrentAdvertisementId}"
             );
-    }
+        }
 
     private int GetAdvertisementIdFromUrl()
     {
