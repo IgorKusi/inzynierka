@@ -84,6 +84,7 @@ public class GateSpawner : MonoBehaviour
             gateObject.GetComponent<Gate>();
 
         GenerateGateOptions(gate);
+        gate.UpdateTexts();
 
         activeGates.Enqueue(
             gateObject
