@@ -15,6 +15,7 @@ public class CrowdManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("CrowdManager Awake");
         if (Instance == null)
         {
             Instance = this;
@@ -22,6 +23,11 @@ public class CrowdManager : MonoBehaviour
 
         CurrentCount =
             startCount;
+    }
+
+    private void Start()
+    {
+        Debug.Log("Current Count = " + CurrentCount);
     }
 
     public void Add(

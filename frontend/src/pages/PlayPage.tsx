@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import UnityContainer from "../components/UnityContainer";
 
@@ -9,23 +8,6 @@ export default function PlayPage() {
 
     const advertisementId =
         searchParams.get("ad");
-
-    useEffect(() => {
-
-        if (advertisementId) {
-
-            localStorage.setItem(
-                "advertisementId",
-                advertisementId
-            );
-
-            console.log(
-                "Advertisement ID saved:",
-                advertisementId
-            );
-        }
-
-    }, [advertisementId]);
 
     return (
 

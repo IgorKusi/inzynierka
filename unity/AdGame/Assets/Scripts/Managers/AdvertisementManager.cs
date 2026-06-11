@@ -2,19 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using System;
-using System.Runtime.InteropServices;
 public class AdvertisementManager : MonoBehaviour
 {
     
     public static AdvertisementManager Instance;
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-
-        [DllImport("__Internal")]
-        private static extern string GetAdvertisementId();
-
-    #endif
-    
 
     [Header("Editor Testing")]
     [SerializeField]
@@ -67,39 +58,17 @@ public class AdvertisementManager : MonoBehaviour
 
     private void InitializeAdvertisementId()
     {
-    #if UNITY_WEBGL && !UNITY_EDITOR
+        Debug.Log(
+            "Launch URL: " +
+            Application.absoluteURL
+        );
+        CurrentAdvertisementId =
+            GetAdvertisementIdFromUrl();
 
-        string advertisementId =
-            GetAdvertisementIdFromBrowser();
-
-        if (
-            !string.IsNullOrEmpty(advertisementId) &&
-            int.TryParse(
-                advertisementId,
-                out int parsedId
-            )
-        )
-        {
-            CurrentAdvertisementId =
-                parsedId;
-        }
-        else
-        {
-            CurrentAdvertisementId =
-                1;
-        }
-
-    #else
-
-            CurrentAdvertisementId =
-                GetAdvertisementIdFromUrl();
-
-    #endif
-
-            Debug.Log(
-                $"Advertisement ID: {CurrentAdvertisementId}"
-            );
-        }
+        Debug.Log(
+            $"Advertisement ID: {CurrentAdvertisementId}"
+        );
+    }
 
     private int GetAdvertisementIdFromUrl()
     {
@@ -227,17 +196,5 @@ public class AdvertisementManager : MonoBehaviour
             Debug.Log("Banner loaded");
         }
     }
-
-    private string GetAdvertisementIdFromBrowser()
-    {
-    #if UNITY_WEBGL && !UNITY_EDITOR
-
-            return GetAdvertisementId();
-
-    #else
-
-            return "";
-
-    #endif
-    }
+    
 }

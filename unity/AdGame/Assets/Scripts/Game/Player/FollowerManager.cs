@@ -37,6 +37,7 @@ public class FollowerManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("FollowerManager Start");
         SyncFollowers();
     }
 
@@ -56,10 +57,12 @@ public class FollowerManager : MonoBehaviour
         {
             RemoveFollower();
         }
+        Debug.Log("Followers target: " + targetCount);
     }
 
     private void SpawnFollower()
     {
+        Debug.Log("Spawn follower");
         GameObject followerObject = Instantiate(
             followerPrefab,
             transform.position,

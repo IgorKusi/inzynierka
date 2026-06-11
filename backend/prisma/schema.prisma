@@ -20,4 +20,16 @@ model Advertisement {
   qrCodeUrl     String?
 
   createdAt     DateTime @default(now())
+
+  coupons Coupon[]
+}
+
+model Coupon {
+  id              Int      @id @default(autoincrement())
+  code            String   @unique
+  isUsed          Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  advertisementId Int
+  advertisement   Advertisement @relation(fields: [advertisementId], references: [id])
 }

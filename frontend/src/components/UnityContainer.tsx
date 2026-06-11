@@ -1,5 +1,11 @@
 import { useEffect, useRef } from "react";
 
+declare global {
+    interface Window {
+        createUnityInstance: any;
+    }
+}
+
 function UnityContainer() {
 
     const canvasRef =
@@ -7,8 +13,67 @@ function UnityContainer() {
 
     useEffect(() => {
 
-        console.log(
-            "Unity container ready"
+        const script =
+            document.createElement(
+                "script"
+            );
+
+        script.src =
+            "/unity/Build/unity.loader.js";
+
+        script.onload = () => {
+
+            if (
+                !canvasRef.current
+            ) {
+                return;
+            }
+
+            window.createUnityInstance(
+                canvasRef.current,
+                {
+                    dataUrl:
+                        "/unity/Build/unity.data.br",
+
+                    frameworkUrl:
+                        "/unity/Build/unity.framework.js.br",
+
+                    codeUrl:
+                        "/unity/Build/unity.wasm.br",
+
+                    streamingAssetsUrl:
+                        "StreamingAssets",
+
+                    companyName:
+                        "AdGame",
+
+                    productName:
+                        "AdGame",
+
+                    productVersion:
+                        "1.0"
+                }
+            )
+                .then(() => {
+
+                    console.log(
+                        "Unity loaded"
+                    );
+
+                })
+                .catch(
+                    (error: any) => {
+
+                        console.error(
+                            error
+                        );
+
+                    }
+                );
+        };
+
+        document.body.appendChild(
+            script
         );
 
     }, []);
@@ -30,7 +95,8 @@ function UnityContainer() {
                 height={700}
                 style={{
                     width: "100%",
-                    border: "2px solid white"
+                    border:
+                        "2px solid white"
                 }}
             />
 

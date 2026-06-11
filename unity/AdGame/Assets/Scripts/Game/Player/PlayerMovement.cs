@@ -14,13 +14,18 @@ public class PlayerMovement : MonoBehaviour
     private float laneChangeSpeed = 10f;
 
     private int currentLane = 0;
-
+    public bool CanMove = true;
+    
     private void Update()
     {
         if (currentLane == 0)
         {
             //wait for player 1st input to start game
             HandleLaneInput();
+            return;
+        }
+        if (!CanMove)
+        {
             return;
         }
         

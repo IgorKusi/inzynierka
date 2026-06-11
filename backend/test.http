@@ -25,3 +25,17 @@ Content-Type: image/png
 
 < ./uploads/test_logo.png
 --WebAppBoundary--
+
+###
+POST http://localhost:3000/coupons/generate
+Content-Type: application/json
+
+{
+  "advertisementId": 7
+}
+
+###
+GET http://localhost:3000/coupons/MJSKKP8V
+
+###
+POST http://localhost:3000/coupons/redeem/MJSKKP8V
