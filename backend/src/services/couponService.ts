@@ -80,3 +80,10 @@ export async function redeemCoupon(
         }
     });
 }
+export async function getAllCoupons() {
+    return await prisma.coupon.findMany({
+        orderBy: {
+            createdAt: "desc"
+        }
+    });
+}

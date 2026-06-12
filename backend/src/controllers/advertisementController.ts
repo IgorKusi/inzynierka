@@ -58,6 +58,10 @@ export const getAdvertisementById = async (req: any, res: any) => {
         const advertisement = await prisma.advertisement.findUnique({
             where: {
                 id
+            },
+
+            include: {
+                coupons: true
             }
         });
 
@@ -174,3 +178,49 @@ export const deleteAdvertisement = async (
         });
     }
 };
+
+export const getAdvertisementCoupons =
+    async (
+        req: any,
+        res: any
+    ) => {
+
+        try {
+
+            const id =
+                Number(req.params.id);
+
+            const advertisement =
+                await prisma.advertisement.findUnique({
+
+                    where: {
+                        id
+                    },
+
+                    include: {
+                        coupons: true
+                    }
+                });
+
+            if (!advertisement) {
+
+                return res.status(404).json({
+                    error:
+                        "Advertisement not found"
+                });
+            }
+
+            res.json(
+                advertisement.coupons
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).json({
+                error:
+                    "Database error"
+            });
+        }
+    };

@@ -5,7 +5,8 @@ import {
     getAdvertisementById,
     getGameAdvertisement,
     getAllAdvertisements,
-    deleteAdvertisement
+    deleteAdvertisement,
+    getAdvertisementCoupons
 } from "../controllers/advertisementController.js";
 
 const router = Router();
@@ -26,8 +27,14 @@ router.get(
 );
 
 router.get(
+    "/:id/coupons",
+    getAdvertisementCoupons
+);
+
+router.get(
     "/:id",
     getAdvertisementById
 );
+
 router.delete("/:id", deleteAdvertisement);
 export default router;

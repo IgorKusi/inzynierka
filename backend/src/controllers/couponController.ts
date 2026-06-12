@@ -9,7 +9,8 @@ import {
 
 import {
     createCoupon,
-    getCouponByCode
+    getCouponByCode,
+    getAllCoupons
 } from "../services/couponService.js";
 
 import {
@@ -162,6 +163,27 @@ export async function getCouponQr(
         res.status(500).json({
             error:
                 "Failed to generate QR"
+        });
+    }
+}
+export async function getCoupons(
+    req: Request,
+    res: Response
+) {
+    try {
+
+        const coupons =
+            await getAllCoupons();
+
+        res.json(coupons);
+    }
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error:
+                "Failed to load coupons"
         });
     }
 }

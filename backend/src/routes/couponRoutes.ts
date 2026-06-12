@@ -4,7 +4,8 @@ import {
     generateCoupon,
     getCoupon,
     useCoupon,
-    getCouponQr
+    getCouponQr,
+    getCoupons
 }
     from "../controllers/couponController.js";
 
@@ -15,6 +16,11 @@ const router = Router();
 router.post(
     "/generate",
     generateCoupon
+);
+
+router.get(
+    "/",
+    getCoupons
 );
 
 router.get(
