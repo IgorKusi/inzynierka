@@ -3,9 +3,12 @@ import { Router } from "express";
 import {
     generateCoupon,
     getCoupon,
-    useCoupon
+    useCoupon,
+    getCouponQr
 }
     from "../controllers/couponController.js";
+
+
 
 const router = Router();
 
@@ -22,6 +25,11 @@ router.get(
 router.post(
     "/redeem/:code",
     useCoupon
+);
+
+router.get(
+    "/qr/:code",
+    getCouponQr
 );
 
 export default router;

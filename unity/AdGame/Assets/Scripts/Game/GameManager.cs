@@ -37,8 +37,6 @@ public class GameManager : MonoBehaviour
                     .Instance
                     .CurrentAdvertisementId
             );
-
-            EndGameUI.Instance.ShowVictory();
         }
         else
         {

@@ -15,3 +15,16 @@ export const generateQRCode = async (
         qrCodeDataUrl
     };
 };
+
+export const generateCouponQR = async (
+    couponCode: string
+) => {
+
+    return await QRCode.toBuffer(
+        couponCode,
+        {
+            width: 512,
+            margin: 2
+        }
+    );
+};

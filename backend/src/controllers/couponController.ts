@@ -12,6 +12,10 @@ import {
     getCouponByCode
 } from "../services/couponService.js";
 
+import {
+    generateCouponQR
+} from "../services/qrService.js";
+
 export async function generateCoupon(
     req: Request,
     res: Response
@@ -127,6 +131,37 @@ export async function useCoupon(
         res.status(500).json({
             error:
                 "Failed to redeem coupon"
+        });
+    }
+}
+export async function getCouponQr(
+    req: Request,
+    res: Response
+) {
+    try {
+
+        const code =
+            req.params.code;
+
+        const qrBuffer =
+            await generateCouponQR(
+                code
+            );
+
+        res.setHeader(
+            "Content-Type",
+            "image/png"
+        );
+
+        res.send(qrBuffer);
+    }
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error:
+                "Failed to generate QR"
         });
     }
 }

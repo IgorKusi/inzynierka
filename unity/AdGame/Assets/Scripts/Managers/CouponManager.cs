@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using System;
 
 public class CouponManager : MonoBehaviour
 {
@@ -11,6 +12,13 @@ public class CouponManager : MonoBehaviour
         get;
         private set;
     }
+    
+    public Texture2D CurrentQrTexture
+    {
+        get;
+        private set;
+    }
+    public event Action CouponGenerated;
     [System.Serializable]
     private class CouponResponse
     {
@@ -96,8 +104,58 @@ public class CouponManager : MonoBehaviour
         CurrentCoupon =
             response.code;
 
+        yield return StartCoroutine(
+            DownloadQrCode(
+                CurrentCoupon
+            )
+        );
+
         Debug.Log(
             $"COUPON GENERATED: {CurrentCoupon}"
         );
+        
+        CouponGenerated?.Invoke();
     }
+    
+    private IEnumerator DownloadQrCode(
+        string couponCode
+    )
+    {
+        string url =
+            $"{ServerConfig.BaseUrl}/coupons/qr/{couponCode}";
+
+        using UnityWebRequest request =
+            UnityWebRequestTexture.GetTexture(
+                url
+            );
+
+        yield return request.SendWebRequest();
+
+        if (
+            request.result !=
+            UnityWebRequest.Result.Success
+        )
+        {
+            Debug.LogError(
+                request.error
+            );
+
+            yield break;
+        }
+
+        CurrentQrTexture =
+            DownloadHandlerTexture
+                .GetContent(request);
+
+        
+        Debug.Log(
+            $"QR SIZE: {CurrentQrTexture.width}x{CurrentQrTexture.height}"
+        );
+        
+        Debug.Log(
+            "QR DOWNLOADED"
+        );
+    }
+    
+    
 }
