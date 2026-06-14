@@ -286,7 +286,10 @@ export const updateAdvertisement = async (req: any, res: any) => {
         });
     }
 };
-export const getMyAdvertisements = async (req: any,res: any) => {
+export const getMyAdvertisements = async (
+    req: any,
+    res: any
+) => {
 
     try {
 
@@ -294,8 +297,11 @@ export const getMyAdvertisements = async (req: any,res: any) => {
             await prisma.advertisement.findMany({
 
                 where: {
-                    userId:
-                    req.user.userId
+                    userId: req.user.userId
+                },
+
+                include: {
+                    coupons: true
                 },
 
                 orderBy: {
@@ -303,13 +309,50 @@ export const getMyAdvertisements = async (req: any,res: any) => {
                 }
             });
 
-        res.json(advertisements);
+        const result =
+            advertisements.map(
+
+                advertisement => ({
+
+                    id:
+                    advertisement.id,
+
+                    brandName:
+                    advertisement.brandName,
+
+                    logoPath:
+                    advertisement.logoPath,
+
+                    bannerPath:
+                    advertisement.bannerPath,
+
+                    qrCodeUrl:
+                    advertisement.qrCodeUrl,
+
+                    createdAt:
+                    advertisement.createdAt,
+
+                    generatedCoupons:
+                    advertisement.coupons.length,
+
+                    usedCoupons:
+                    advertisement.coupons.filter(
+
+                        coupon =>
+                            coupon.isUsed
+
+                    ).length
+                })
+            );
+
+        res.json(result);
 
     } catch (error) {
 
         console.error(error);
 
         res.status(500).json({
+
             error:
                 "Database error"
         });
@@ -407,6 +450,81 @@ export const getAdvertisementStats = async (req: any, res: any) => {
             console.error(
                 error
             );
+
+            res.status(500).json({
+
+                error:
+                    "Database error"
+            });
+        }
+    };
+
+export const getMyAdvertisementStats =
+    async (
+        req: any,
+        res: any
+    ) => {
+
+        try {
+
+            const userId =
+                req.user.userId;
+
+            const advertisements =
+                await prisma.advertisement.findMany({
+
+                    where: {
+                        userId
+                    },
+
+                    include: {
+                        coupons: true
+                    }
+                });
+
+            const advertisementsCount =
+                advertisements.length;
+
+            const couponsGenerated =
+                advertisements.reduce(
+
+                    (sum, advertisement) =>
+
+                        sum +
+                        advertisement.coupons.length,
+
+                    0
+                );
+
+            const couponsUsed =
+                advertisements.reduce(
+
+                    (sum, advertisement) =>
+
+                        sum +
+
+                        advertisement.coupons.filter(
+
+                            coupon =>
+                                coupon.isUsed
+                        ).length,
+
+                    0
+                );
+
+            res.json({
+
+                advertisements:
+                advertisementsCount,
+
+                couponsGenerated,
+
+                couponsUsed
+            });
+
+        } catch (error) {
+
+            console.error(error);
 
             res.status(500).json({
 

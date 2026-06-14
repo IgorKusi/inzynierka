@@ -9,6 +9,7 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import advertisementRoutes from "./routes/advertisementRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use("/advertisements", advertisementRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/coupons", couponRoutes);
 app.use("/users", userRoutes);
+app.use("/admin", adminRoutes);
 app.get("/", (req, res) => {
     res.send("AdGame Backend Running");
 });

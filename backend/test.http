@@ -46,7 +46,7 @@ GET http://localhost:3000/coupons
 ###
 PUT http://localhost:3000/advertisements/11
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0ODgyNSwiZXhwIjoxNzgyMDUzNjI1fQ.RA-PMID2hMR3yuVWX1NEzxEAYQpjKy1PHrvpOD6UR84
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0ODgyNSwiZXhwIjoxNzgyMDUzNjI1fQ.RA-PMID2hMR3yuVWX1NEzxEAYQpjKy1PHrvpOD6UR84
 
 {
   "brandName": "NOWA NAZWA",
@@ -105,7 +105,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvb
 
 ###
 GET http://localhost:3000/advertisements/my
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0NzE1NCwiZXhwIjoxNzgyMDUxOTU0fQ.pNDXz0VrPwzhv8efg6x8pkzbAjMippoO-V69WjhxHcM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0ODgyNSwiZXhwIjoxNzgyMDUzNjI1fQ.RA-PMID2hMR3yuVWX1NEzxEAYQpjKy1PHrvpOD6UR84
 ###
 
 DELETE http://localhost:3000/advertisements/11
@@ -114,3 +114,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvb
 ###
 GET http://localhost:3000/advertisements/11/stats
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0ODgyNSwiZXhwIjoxNzgyMDUzNjI1fQ.RA-PMID2hMR3yuVWX1NEzxEAYQpjKy1PHrvpOD6UR84
+
+###
+GET http://localhost:3000/advertisements/my/stats
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0ODgyNSwiZXhwIjoxNzgyMDUzNjI1fQ.RA-PMID2hMR3yuVWX1NEzxEAYQpjKy1PHrvpOD6UR84
+
+
+
+
