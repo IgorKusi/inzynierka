@@ -7,6 +7,25 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  ADMIN
+  ADVERTISER
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+
+  email          String   @unique
+
+  passwordHash   String
+
+  role           Role
+
+  createdAt      DateTime @default(now())
+
+  advertisements Advertisement[]
+}
+
 model Advertisement {
   id            Int      @id @default(autoincrement())
 
@@ -21,15 +40,22 @@ model Advertisement {
 
   createdAt     DateTime @default(now())
 
-  coupons Coupon[]
+  userId Int?
+  user User? @relation(fields: [userId], references: [id])
+
+  coupons       Coupon[]
 }
 
 model Coupon {
   id              Int      @id @default(autoincrement())
+
   code            String   @unique
+
   isUsed          Boolean  @default(false)
+
   createdAt       DateTime @default(now())
 
   advertisementId Int
-  advertisement   Advertisement @relation(fields: [advertisementId], references: [id])
+
+  advertisement Advertisement @relation(fields: [advertisementId], references: [id])
 }

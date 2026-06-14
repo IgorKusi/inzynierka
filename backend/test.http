@@ -42,3 +42,39 @@ POST http://localhost:3000/coupons/redeem/MJSKKP8V
 
 ###
 GET http://localhost:3000/coupons
+
+###
+PUT http://localhost:3000/advertisements/7
+Content-Type: application/json
+
+{
+  "brandName": "NOWA NAZWA",
+  "logoPath": "/uploads/logo.png",
+  "bannerPath": "/uploads/banner.png",
+  "discountCode": "PROMO2026"
+}
+
+###
+GET http://localhost:3000/advertisements/7
+
+###
+POST http://localhost:3000/users/register
+Content-Type: application/json
+
+{
+  "email": "advertiser@test.pl",
+  "password": "tajnehaslo",
+  "role": "ADVERTISER"
+}
+
+###
+GET http://localhost:3000/users
+
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+  "email": "advertiser@test.pl",
+  "password": "tajnehaslo"
+}

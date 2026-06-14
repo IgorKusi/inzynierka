@@ -8,6 +8,7 @@ import cors from "cors";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import advertisementRoutes from "./routes/advertisementRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 const app = express();
 
@@ -36,7 +37,7 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/advertisements", advertisementRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/coupons", couponRoutes);
-
+app.use("/users", userRoutes);
 app.get("/", (req, res) => {
     res.send("AdGame Backend Running");
 });

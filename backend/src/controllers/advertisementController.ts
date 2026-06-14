@@ -224,3 +224,46 @@ export const getAdvertisementCoupons =
             });
         }
     };
+export const updateAdvertisement = async (
+    req: any,
+    res: any
+) => {
+
+    try {
+
+        const id =
+            Number(req.params.id);
+
+        const {
+            brandName,
+            logoPath,
+            bannerPath,
+            discountCode
+        } = req.body;
+
+        const advertisement =
+            await prisma.advertisement.update({
+
+                where: {
+                    id
+                },
+
+                data: {
+                    brandName,
+                    logoPath,
+                    bannerPath,
+                    discountCode
+                }
+            });
+
+        res.json(advertisement);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "Database error"
+        });
+    }
+};

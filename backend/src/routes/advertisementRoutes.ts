@@ -6,7 +6,8 @@ import {
     getGameAdvertisement,
     getAllAdvertisements,
     deleteAdvertisement,
-    getAdvertisementCoupons
+    getAdvertisementCoupons,
+    updateAdvertisement
 } from "../controllers/advertisementController.js";
 
 const router = Router();
@@ -34,6 +35,11 @@ router.get(
 router.get(
     "/:id",
     getAdvertisementById
+);
+
+router.put(
+    "/:id",
+    updateAdvertisement
 );
 
 router.delete("/:id", deleteAdvertisement);
