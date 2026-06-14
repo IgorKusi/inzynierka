@@ -44,8 +44,9 @@ POST http://localhost:3000/coupons/redeem/MJSKKP8V
 GET http://localhost:3000/coupons
 
 ###
-PUT http://localhost:3000/advertisements/7
+PUT http://localhost:3000/advertisements/11
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0ODgyNSwiZXhwIjoxNzgyMDUzNjI1fQ.RA-PMID2hMR3yuVWX1NEzxEAYQpjKy1PHrvpOD6UR84
 
 {
   "brandName": "NOWA NAZWA",
@@ -62,9 +63,9 @@ POST http://localhost:3000/users/register
 Content-Type: application/json
 
 {
-  "email": "advertiser@test.pl",
+  "email": "ADMIN@test.pl",
   "password": "tajnehaslo",
-  "role": "ADVERTISER"
+  "role": "ADMIN"
 }
 
 ###
@@ -75,6 +76,41 @@ POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
+  "email": "ADMIN@test.pl",
+  "password": "tajnehaslo"
+}
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
   "email": "advertiser@test.pl",
   "password": "tajnehaslo"
 }
+###
+GET http://localhost:3000/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0NzE1NCwiZXhwIjoxNzgyMDUxOTU0fQ.pNDXz0VrPwzhv8efg6x8pkzbAjMippoO-V69WjhxHcM
+
+
+###
+POST http://localhost:3000/advertisements
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0NzE1NCwiZXhwIjoxNzgyMDUxOTU0fQ.pNDXz0VrPwzhv8efg6x8pkzbAjMippoO-V69WjhxHcM
+
+{
+  "brandName": "JWT TEST ADMIN",
+  "logoPath": "/uploads/test_logo.png",
+  "bannerPath": "/uploads/test_banner.png"
+}
+
+###
+GET http://localhost:3000/advertisements/my
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0NzE1NCwiZXhwIjoxNzgyMDUxOTU0fQ.pNDXz0VrPwzhv8efg6x8pkzbAjMippoO-V69WjhxHcM
+###
+
+DELETE http://localhost:3000/advertisements/11
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBRFZFUlRJU0VSIiwiaWF0IjoxNzgxNDQ3MzUxLCJleHAiOjE3ODIwNTIxNTF9.rQPvORSi40zll1QnR3rYkuRZn3vi4CMYeeVpODmghXw
+
+###
+GET http://localhost:3000/advertisements/11/stats
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0ODgyNSwiZXhwIjoxNzgyMDUzNjI1fQ.RA-PMID2hMR3yuVWX1NEzxEAYQpjKy1PHrvpOD6UR84

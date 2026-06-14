@@ -1,6 +1,5 @@
 import { prisma } from "../config/prisma.js";
-import { generateQRCode }
-    from "../services/qrService.js";
+import { generateQRCode } from "../services/qrService.js";
 
 export const createAdvertisement = async (req: any, res: any) => {
     try {
@@ -12,14 +11,18 @@ export const createAdvertisement = async (req: any, res: any) => {
             discountCode
         } = req.body;
 
-        const advertisement = await prisma.advertisement.create({
-            data: {
-                brandName,
-                logoPath,
-                bannerPath,
-                discountCode
-            }
-        });
+        const userId = req.user.userId;
+
+        const advertisement =
+            await prisma.advertisement.create({
+                data: {
+                    brandName,
+                    logoPath,
+                    bannerPath,
+                    discountCode,
+                    userId
+                }
+            });
 
         const qr =
             await generateQRCode(advertisement.id);
@@ -82,10 +85,7 @@ export const getAdvertisementById = async (req: any, res: any) => {
     }
 };
 
-export const getGameAdvertisement = async (
-    req: any,
-    res: any
-) => {
+export const getGameAdvertisement = async (req: any,res: any) => {
 
     try {
 
@@ -122,10 +122,7 @@ export const getGameAdvertisement = async (
         });
     }
 };
-export const getAllAdvertisements = async (
-    req: any,
-    res: any
-) => {
+export const getAllAdvertisements = async (req: any,res: any) => {
 
     try {
 
@@ -148,15 +145,30 @@ export const getAllAdvertisements = async (
         });
     }
 };
-export const deleteAdvertisement = async (
-    req: any,
-    res: any
-) => {
+export const deleteAdvertisement = async (req: any,res: any) => {
 
     try {
 
-        const id =
-            Number(req.params.id);
+        const id = Number(req.params.id);
+
+        const advertisement =
+            await canAccessAdvertisement(id, req);
+
+        if (advertisement === null) {
+
+            return res.status(404).json({
+                error:
+                    "Advertisement not found"
+            });
+        }
+
+        if (advertisement === false) {
+
+            return res.status(403).json({
+                error:
+                    "Forbidden"
+            });
+        }
 
         await prisma.advertisement.delete({
 
@@ -179,16 +191,11 @@ export const deleteAdvertisement = async (
     }
 };
 
-export const getAdvertisementCoupons =
-    async (
-        req: any,
-        res: any
-    ) => {
+export const getAdvertisementCoupons = async (req: any,res: any) => {
 
         try {
 
-            const id =
-                Number(req.params.id);
+            const id = Number(req.params.id);
 
             const advertisement =
                 await prisma.advertisement.findUnique({
@@ -210,9 +217,7 @@ export const getAdvertisementCoupons =
                 });
             }
 
-            res.json(
-                advertisement.coupons
-            );
+            res.json(advertisement.coupons);
 
         } catch (error) {
 
@@ -224,10 +229,7 @@ export const getAdvertisementCoupons =
             });
         }
     };
-export const updateAdvertisement = async (
-    req: any,
-    res: any
-) => {
+export const updateAdvertisement = async (req: any, res: any) => {
 
     try {
 
@@ -240,9 +242,26 @@ export const updateAdvertisement = async (
             bannerPath,
             discountCode
         } = req.body;
-
         const advertisement =
-            await prisma.advertisement.update({
+            await canAccessAdvertisement(id, req);
+
+        if (advertisement === null) {
+
+            return res.status(404).json({
+                error:
+                    "Advertisement not found"
+            });
+        }
+
+        if (advertisement === false) {
+
+            return res.status(403).json({
+                error:
+                    "Forbidden"
+            });
+        }
+
+        await prisma.advertisement.update({
 
                 where: {
                     id
@@ -267,3 +286,132 @@ export const updateAdvertisement = async (
         });
     }
 };
+export const getMyAdvertisements = async (req: any,res: any) => {
+
+    try {
+
+        const advertisements =
+            await prisma.advertisement.findMany({
+
+                where: {
+                    userId:
+                    req.user.userId
+                },
+
+                orderBy: {
+                    id: "desc"
+                }
+            });
+
+        res.json(advertisements);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error:
+                "Database error"
+        });
+    }
+};
+async function canAccessAdvertisement(advertisementId: number, req: any) {
+
+    const advertisement =
+        await prisma.advertisement.findUnique({
+
+            where: {
+                id: advertisementId
+            }
+        });
+
+    if (!advertisement) {
+        return null;
+    }
+
+    if (req.user.role === "ADMIN") {
+        return advertisement;
+    }
+
+    if (advertisement.userId !== req.user.userId) {
+        return false;
+    }
+
+    return advertisement;
+}
+export const getAdvertisementStats = async (req: any, res: any) => {
+
+        try {
+
+            const id =
+                Number(req.params.id);
+
+            const advertisement = await canAccessAdvertisement(id, req);
+
+            if (advertisement === null) {
+
+                return res
+                    .status(404)
+                    .json({
+                        error:
+                            "Advertisement not found"
+                    });
+            }
+
+            if (advertisement === false) {
+
+                return res
+                    .status(403)
+                    .json({
+                        error:
+                            "Forbidden"
+                    });
+            }
+
+            const totalCoupons =
+                await prisma.coupon.count({
+
+                    where: {
+                        advertisementId:
+                        id
+                    }
+                });
+
+            const usedCoupons =
+                await prisma.coupon.count({
+
+                    where: {
+                        advertisementId:
+                        id,
+
+                        isUsed: true
+                    }
+                });
+
+            res.json({
+
+                advertisementId:
+                id,
+
+                totalCoupons,
+
+                usedCoupons,
+
+                unusedCoupons:
+                    totalCoupons -
+                    usedCoupons
+            });
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+            res.status(500).json({
+
+                error:
+                    "Database error"
+            });
+        }
+    };

@@ -1,11 +1,7 @@
-import type {
-    Request,
-    Response
-} from "express";
+import type {Request, Response} from "express";
 import {
     redeemCoupon
 } from "../services/couponService.js";
-
 
 import {
     createCoupon,
@@ -17,33 +13,20 @@ import {
     generateCouponQR
 } from "../services/qrService.js";
 
-export async function generateCoupon(
-    req: Request,
-    res: Response
-) {
+export async function generateCoupon(req: Request, res: Response) {
     try {
         const advertisementId =
-            Number(
-                req.body.advertisementId
-            );
+            Number(req.body.advertisementId);
 
-        if (
-            Number.isNaN(
-                advertisementId
-            )
-        ) {
-            return res
-                .status(400)
-                .json({
+        if (Number.isNaN(advertisementId)) {
+            return res.status(400).json({
                     error:
                         "advertisementId required"
                 });
         }
 
         const coupon =
-            await createCoupon(
-                advertisementId
-            );
+            await createCoupon(advertisementId);
 
         res.json(coupon);
     }
@@ -58,19 +41,12 @@ export async function generateCoupon(
 }
 
 
-export async function getCoupon(
-    req: Request,
-    res: Response
-) {
+export async function getCoupon(req: Request, res: Response) {
     try {
-        const code = String(
-            req.params.code
-        );
+        const code = String(req.params.code);
 
         const coupon =
-            await getCouponByCode(
-                code
-            );
+            await getCouponByCode(code);
 
         if (!coupon) {
             return res
@@ -93,14 +69,10 @@ export async function getCoupon(
     }
 }
 
-export async function useCoupon(
-    req: Request,
-    res: Response
-) {
+export async function useCoupon(req: Request, res: Response) {
     try {
 
-        const code =
-            String(req.params.code);
+        const code = String(req.params.code);
 
         const result =
             await redeemCoupon(code);
@@ -135,24 +107,15 @@ export async function useCoupon(
         });
     }
 }
-export async function getCouponQr(
-    req: Request,
-    res: Response
-) {
+export async function getCouponQr(req: Request, res: Response) {
     try {
 
-        const code =
-            req.params.code;
+        const code = req.params.code;
 
         const qrBuffer =
-            await generateCouponQR(
-                code
-            );
+            await generateCouponQR(code);
 
-        res.setHeader(
-            "Content-Type",
-            "image/png"
-        );
+        res.setHeader("Content-Type","image/png");
 
         res.send(qrBuffer);
     }
@@ -166,10 +129,7 @@ export async function getCouponQr(
         });
     }
 }
-export async function getCoupons(
-    req: Request,
-    res: Response
-) {
+export async function getCoupons(req: Request, res: Response) {
     try {
 
         const coupons =

@@ -9,33 +9,16 @@ import {
 }
     from "../controllers/couponController.js";
 
-
-
 const router = Router();
 
-router.post(
-    "/generate",
-    generateCoupon
-);
+router.post("/generate", generateCoupon);
 
-router.get(
-    "/",
-    getCoupons
-);
+router.get("/", getCoupons);
 
-router.get(
-    "/:code",
-    getCoupon
-);
+router.get("/:code", getCoupon);
 
-router.post(
-    "/redeem/:code",
-    useCoupon
-);
+router.post("/redeem/:code", useCoupon);
 
-router.get(
-    "/qr/:code",
-    getCouponQr
-);
+router.get("/qr/:code", getCouponQr);
 
 export default router;

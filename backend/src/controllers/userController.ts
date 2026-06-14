@@ -1,13 +1,9 @@
 import { prisma } from "../config/prisma.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-export const createUser = async (
-    req: any,
-    res: any
-) => {
-
+export const createUser = async (req: any,res: any) => {
     try {
-
         const {
             email,
             password,
@@ -42,10 +38,7 @@ export const createUser = async (
     }
 };
 
-export const getUsers = async (
-    req: any,
-    res: any
-) => {
+export const getUsers = async (req: any,res: any) => {
 
     try {
 
@@ -69,13 +62,8 @@ export const getUsers = async (
     }
 };
 
-export const loginUser = async (
-    req: any,
-    res: any
-) => {
-
+export const loginUser = async (req: any, res: any) => {
     try {
-
         const {
             email,
             password
@@ -109,8 +97,23 @@ export const loginUser = async (
             });
         }
 
+        const token =
+            jwt.sign(
+                {
+                    userId: user.id,
+                    role: user.role
+                },
+                process.env.JWT_SECRET!,
+                {
+                    expiresIn: "7d"
+                }
+            );
+
         res.json({
             success: true,
+
+            token,
+
             user: {
                 id: user.id,
                 email: user.email,
@@ -125,5 +128,13 @@ export const loginUser = async (
         res.status(500).json({
             error: "Login failed"
         });
+
     }
+};
+
+export const me = async (req: any, res: any) =>
+{
+    res.json({
+        user: req.user
+    });
 };

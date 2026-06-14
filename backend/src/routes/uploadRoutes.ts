@@ -22,10 +22,6 @@ const upload = multer({
     storage
 });
 
-router.post(
-    "/",
-    upload.single("image"),
-    uploadImage
-);
+router.post("/", upload.single("image"), uploadImage);
 
 export default router;

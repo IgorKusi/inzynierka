@@ -1,5 +1,8 @@
 import { Router } from "express";
-
+import {
+    authMiddleware,
+}
+    from "../middleware/authMiddleware.js";
 import {
     createAdvertisement,
     getAdvertisementById,
@@ -7,40 +10,29 @@ import {
     getAllAdvertisements,
     deleteAdvertisement,
     getAdvertisementCoupons,
-    updateAdvertisement
+    updateAdvertisement,
+    getMyAdvertisements,
+    getAdvertisementStats
 } from "../controllers/advertisementController.js";
 
 const router = Router();
 
-router.post(
-    "/",
-    createAdvertisement
-);
+router.post("/", authMiddleware, createAdvertisement);
 
-router.get(
-    "/game/:id",
-    getGameAdvertisement
-);
+router.get("/game/:id", getGameAdvertisement);
 
-router.get(
-    "/",
-    getAllAdvertisements
-);
+router.get("/", getAllAdvertisements);
 
-router.get(
-    "/:id/coupons",
-    getAdvertisementCoupons
-);
+router.get("/:id/coupons", getAdvertisementCoupons);
 
-router.get(
-    "/:id",
-    getAdvertisementById
-);
+router.get("/my", authMiddleware, getMyAdvertisements);
 
-router.put(
-    "/:id",
-    updateAdvertisement
-);
+router.get( "/:id/stats", authMiddleware, getAdvertisementStats);
 
-router.delete("/:id", deleteAdvertisement);
+router.get( "/:id", getAdvertisementById);
+
+router.put( "/:id", authMiddleware, updateAdvertisement);
+
+router.delete("/:id", authMiddleware, deleteAdvertisement);
+
 export default router;
