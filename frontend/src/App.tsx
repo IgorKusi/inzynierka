@@ -1,36 +1,75 @@
 import {
-  BrowserRouter,
-  Routes,
-  Route
+    BrowserRouter,
+    Routes,
+    Route
 } from "react-router-dom";
 
-import AdvertiserPortal
-  from "./pages/AdvertiserPortal";
-
 import PlayPage
-  from "./pages/PlayPage";
+    from "./pages/PlayPage";
+
+import LoginPage
+    from "./pages/LoginPage";
+
+import RegisterPage
+    from "./pages/RegisterPage";
+
+import AdvertiserPortal
+    from "./pages/AdvertiserPortal";
+
+import AdminPage
+    from "./pages/AdminPage";
+
+import ProtectedRoute
+    from "./components/ProtectedRoute";
 
 function App() {
 
-  return (
-      <BrowserRouter>
+    return (
+        <BrowserRouter>
 
-        <Routes>
+            <Routes>
 
-          <Route
-              path="/"
-              element={<AdvertiserPortal />}
-          />
+                <Route
+                    path="/login"
+                    element={<LoginPage />}
+                />
 
-          <Route
-              path="/play"
-              element={<PlayPage />}
-          />
+                <Route
+                    path="/register"
+                    element={<RegisterPage />}
+                />
 
-        </Routes>
+                <Route
+                    path="/play"
+                    element={<PlayPage />}
+                />
 
-      </BrowserRouter>
-  );
+                <Route
+                    path="/advertiser"
+                    element={
+                        <ProtectedRoute
+                            role="ADVERTISER"
+                        >
+                            <AdvertiserPortal />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/admin"
+                    element={
+                        <ProtectedRoute
+                            role="ADMIN"
+                        >
+                            <AdminPage />
+                        </ProtectedRoute>
+                    }
+                />
+
+            </Routes>
+
+        </BrowserRouter>
+    );
 }
 
 export default App;

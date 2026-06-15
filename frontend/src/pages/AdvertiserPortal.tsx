@@ -1,295 +1,357 @@
 import { useEffect, useState } from "react";
-import type { Advertisement } from "../types/Advertisement";
+import { useNavigate } from "react-router-dom";
+
 const SERVER_URL =
     "http://localhost:3000";
 
-function AdvertiserPortal() {
+type Advertisement = {
 
-    const [brandName, setBrandName] =
-        useState("");
+    id: number;
 
-    const [logoFile, setLogoFile] =
-        useState<File | null>(null);
+    brandName: string;
 
-    const [bannerFile, setBannerFile] =
-        useState<File | null>(null);
+    logoPath: string;
 
-    const [qrCode, setQrCode] =
-        useState("");
+    bannerPath: string;
 
-    const [advertisements, setAdvertisements] =
+    qrCodeUrl: string | null;
+
+    launchCount?: number;
+};
+
+type AdvertisementStats = {
+
+    advertisementId: number;
+
+    launchCount: number;
+
+    totalCoupons: number;
+
+    usedCoupons: number;
+
+    unusedCoupons: number;
+
+    conversionRate: number;
+};
+
+export default function AdvertiserPortal() {
+
+    const navigate =
+        useNavigate();
+
+    const [advertisements,
+        setAdvertisements] =
         useState<Advertisement[]>([]);
 
-    const uploadImage = async (
-        file: File
-    ) => {
+    const [stats,
+        setStats] =
+        useState<
+            Record<number,
+                AdvertisementStats>
+        >({});
 
-        const formData =
-            new FormData();
 
-        formData.append(
-            "image",
-            file
+    const loadStats =
+        async (
+            advertisementId: number
+        ) => {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${SERVER_URL}/advertisements/${advertisementId}/stats`
+                    );
+
+                const data =
+                    await response.json();
+
+                setStats(
+                    previous => ({
+                        ...previous,
+
+                        [advertisementId]:
+                        data
+                    })
+                );
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+            }
+        };
+
+    const token =
+        localStorage.getItem(
+            "token"
         );
-
-        const response =
-            await fetch(
-                "http://localhost:3000/upload",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
-
-        return response.json();
-    };
 
     const loadAdvertisements =
         async () => {
 
-            const response =
-                await fetch(
-                    "http://localhost:3000/advertisements"
+            try {
+
+                const response =
+                    await fetch(
+                        `${SERVER_URL}/advertisements/my`,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ${token}`
+                            }
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                setAdvertisements(
+                    data
                 );
 
-            const data =
-                await response.json();
+                for (
+                    const advertisement
+                    of data
+                    ) {
 
-            setAdvertisements(data);
-        };
+                    loadStats(
+                        advertisement.id
+                    );
+                }
 
-    const createAdvertisement =
-        async () => {
+            } catch (error) {
 
-            if (
-                !logoFile ||
-                !bannerFile
-            ) {
-                return;
+                console.error(
+                    error
+                );
             }
-
-            const logo =
-                await uploadImage(
-                    logoFile
-                );
-
-            const banner =
-                await uploadImage(
-                    bannerFile
-                );
-
-            const response =
-                await fetch(
-                    "http://localhost:3000/advertisements",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-                            brandName,
-                            logoPath:
-                            logo.filePath,
-                            bannerPath:
-                            banner.filePath
-                        })
-                    }
-                );
-
-            const data =
-                await response.json();
-
-            setQrCode(
-                data.qrCode
-            );
-            loadAdvertisements();
         };
+
     useEffect(() => {
 
         loadAdvertisements();
 
     }, []);
+
+    const logout = () => {
+
+        localStorage.removeItem(
+            "token"
+        );
+
+        localStorage.removeItem(
+            "user"
+        );
+
+        navigate(
+            "/login"
+        );
+    };
+
     const deleteAdvertisement =
-        async (id: number) => {
+        async (
+            id: number
+        ) => {
 
-            await fetch(
-                `http://localhost:3000/advertisements/${id}`,
-                {
-                    method: "DELETE"
-                }
-            );
+            try {
 
-            loadAdvertisements();
+                await fetch(
+                    `${SERVER_URL}/advertisements/${id}`,
+                    {
+                        method:
+                            "DELETE",
+
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+                loadAdvertisements();
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+            }
         };
 
     return (
 
-        <div>
+        <div
+            style={{
+                padding: "30px"
+            }}
+        >
 
             <h1>
-                AdGame Admin
+                Advertiser Dashboard
             </h1>
 
-            <div>
-
-                <label>
-                    Brand name
-                </label>
-
-                <input
-                    value={brandName}
-                    onChange={(e) =>
-                        setBrandName(
-                            e.target.value
-                        )
-                    }
-                />
-
-            </div>
-
-            <div>
-
-                <label>
-                    Logo
-                </label>
-
-                <input
-                    type="file"
-                    onChange={(e) =>
-                        setLogoFile(
-                            e.target.files?.[0]
-                            ?? null
-                        )
-                    }
-                />
-
-            </div>
-
-            <div>
-
-                <label>
-                    Banner
-                </label>
-
-                <input
-                    type="file"
-                    onChange={(e) =>
-                        setBannerFile(
-                            e.target.files?.[0]
-                            ?? null
-                        )
-                    }
-                />
-
-            </div>
-
             <button
-                onClick={
-                    createAdvertisement
-                }
+                onClick={logout}
             >
-                Create Advertisement
+                Logout
             </button>
-
-            {
-                qrCode &&
-                (
-                    <>
-                        <h2>
-                            QR Code
-                        </h2>
-
-                        <img
-                            src={qrCode}
-                            alt="QR"
-                        />
-                    </>
-                )
-            }
 
             <hr />
 
-            <h2>Advertisements</h2>
+            <h2>
+                Moje reklamy
+            </h2>
+
+            {
+                advertisements.length === 0 &&
+                (
+                    <p>
+                        Brak reklam.
+                    </p>
+                )
+            }
 
             {
                 advertisements.map(
                     advertisement => (
 
                         <div
-                            key={advertisement.id}
+                            key={
+                                advertisement.id
+                            }
                             style={{
-                                border: "1px solid white",
-                                margin: "10px",
-                                padding: "20px"
+                                border:
+                                    "1px solid white",
+
+                                padding:
+                                    "20px",
+
+                                marginBottom:
+                                    "20px"
                             }}
                         >
+
                             <h3>
-                                {advertisement.brandName}
+                                {
+                                    advertisement.brandName
+                                }
                             </h3>
 
                             <p>
                                 ID:
                                 {" "}
-                                {advertisement.id}
+                                {
+                                    advertisement.id
+                                }
                             </p>
 
-                            <div>
+                            <img
+                                src={
+                                    SERVER_URL +
+                                    advertisement.logoPath
+                                }
+                                alt="Logo"
+                                width="120"
+                            />
 
-                                <p>
-                                    Logo
-                                </p>
+                            <br />
+                            <br />
 
-                                <img
-                                    src={
-                                        SERVER_URL +
-                                        advertisement.logoPath
-                                    }
-                                    alt="Logo"
-                                    style={{
-                                        width: "150px"
-                                    }}
-                                />
-
-                            </div>
-
-                            <div>
-
-                                <p>
-                                    Banner
-                                </p>
-
-                                <img
-                                    src={
-                                        SERVER_URL +
-                                        advertisement.bannerPath
-                                    }
-                                    alt="Banner"
-                                    style={{
-                                        width: "300px"
-                                    }}
-                                />
-
-                            </div>
+                            <img
+                                src={
+                                    SERVER_URL +
+                                    advertisement.bannerPath
+                                }
+                                alt="Banner"
+                                width="300"
+                            />
 
                             <p>
+
                                 QR:
+
                                 {" "}
-                                {advertisement.qrCodeUrl}
+
+                                {
+                                    advertisement.qrCodeUrl
+                                }
+
+                            </p>
+
+                            <hr />
+
+                            <h4>
+                                Statistics
+                            </h4>
+
+                            <p>
+                                Launches:
+                                {" "}
+                                {
+                                    stats[
+                                        advertisement.id
+                                        ]?.launchCount ?? 0
+                                }
+                            </p>
+
+                            <p>
+                                Generated coupons:
+                                {" "}
+                                {
+                                    stats[
+                                        advertisement.id
+                                        ]?.totalCoupons ?? 0
+                                }
+                            </p>
+
+                            <p>
+                                Used coupons:
+                                {" "}
+                                {
+                                    stats[
+                                        advertisement.id
+                                        ]?.usedCoupons ?? 0
+                                }
+                            </p>
+
+                            <p>
+                                Unused coupons:
+                                {" "}
+                                {
+                                    stats[
+                                        advertisement.id
+                                        ]?.unusedCoupons ?? 0
+                                }
+                            </p>
+
+                            <p>
+                                Conversion:
+                                {" "}
+                                {
+                                    stats[
+                                        advertisement.id
+                                        ]?.conversionRate ?? 0
+                                }
+                                %
                             </p>
 
                             <button
                                 onClick={() =>
-                                    navigator.clipboard.writeText(
-                                        advertisement.qrCodeUrl ??
-                                        ""
-                                    )
+                                    navigator
+                                        .clipboard
+                                        .writeText(
+                                            advertisement.qrCodeUrl ??
+                                            ""
+                                        )
                                 }
                             >
                                 Copy QR Link
                             </button>
+
+                            {" "}
+
                             <button
                                 onClick={() =>
                                     deleteAdvertisement(
@@ -304,8 +366,7 @@ function AdvertiserPortal() {
                     )
                 )
             }
+
         </div>
     );
 }
-
-export default AdvertiserPortal;
