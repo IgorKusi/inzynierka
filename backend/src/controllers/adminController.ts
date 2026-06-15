@@ -46,9 +46,7 @@ export const getAdminStats = async (
         console.error(error);
 
         res.status(500).json({
-
-            error:
-                "Database error"
+            error: "Database error"
         });
     }
 };
@@ -75,12 +73,11 @@ export const getAllUsers = async (
         console.error(error);
 
         res.status(500).json({
-
-            error:
-                "Database error"
+            error: "Database error"
         });
     }
 };
+
 export const getAdminAdvertisements =
     async (
         req: any,
@@ -109,9 +106,7 @@ export const getAdminAdvertisements =
             console.error(error);
 
             res.status(500).json({
-
-                error:
-                    "Database error"
+                error: "Database error"
             });
         }
     };

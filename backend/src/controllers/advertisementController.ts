@@ -431,10 +431,22 @@ export const getAdvertisementStats = async (req: any, res: any) => {
                     }
                 });
 
+            const conversionRate =
+                advertisement.launchCount > 0
+
+                    ? (
+                    totalCoupons /
+                    advertisement.launchCount
+                ) * 100
+
+                    : 0;
+
             res.json({
 
-                advertisementId:
-                id,
+                advertisementId: id,
+
+                launchCount:
+                advertisement.launchCount,
 
                 totalCoupons,
 
@@ -442,7 +454,12 @@ export const getAdvertisementStats = async (req: any, res: any) => {
 
                 unusedCoupons:
                     totalCoupons -
-                    usedCoupons
+                    usedCoupons,
+
+                conversionRate:
+                    Number(
+                        conversionRate.toFixed(2)
+                    )
             });
 
         } catch (error) {
@@ -533,3 +550,43 @@ export const getMyAdvertisementStats =
             });
         }
     };
+
+export const registerLaunch = async (
+    req: any,
+    res: any
+) => {
+
+    try {
+
+        const id =
+            Number(req.params.id);
+
+        const advertisement =
+            await prisma.advertisement.update({
+
+                where: {
+                    id
+                },
+
+                data: {
+                    launchCount: {
+                        increment: 1
+                    }
+                }
+            });
+
+        res.json({
+            launchCount:
+            advertisement.launchCount
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error:
+                "Database error"
+        });
+    }
+};

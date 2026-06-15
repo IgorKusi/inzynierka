@@ -40,6 +40,8 @@ model Advertisement {
 
   createdAt     DateTime @default(now())
 
+  launchCount Int @default(0)
+
   userId Int?
   user User? @relation(fields: [userId], references: [id])
 

@@ -119,6 +119,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvb
 GET http://localhost:3000/advertisements/my/stats
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTQ0ODgyNSwiZXhwIjoxNzgyMDUzNjI1fQ.RA-PMID2hMR3yuVWX1NEzxEAYQpjKy1PHrvpOD6UR84
 
+###
+POST http://localhost:3000/advertisements/7/launch
 
-
+###
+GET http://localhost:3000/advertisements/7/stats
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4MTUzMTYwMCwiZXhwIjoxNzgyMTM2NDAwfQ.xBcC94mLehel09U3ibOFG4ECHu3Q1Sr75O8wOv8LhbU
 

@@ -13,7 +13,8 @@ import {
     updateAdvertisement,
     getMyAdvertisements,
     getAdvertisementStats,
-    getMyAdvertisementStats
+    getMyAdvertisementStats,
+    registerLaunch
 } from "../controllers/advertisementController.js";
 
 const router = Router();
@@ -31,6 +32,8 @@ router.get("/my/stats", authMiddleware, getMyAdvertisementStats);
 router.get("/my", authMiddleware, getMyAdvertisements);
 
 router.get( "/:id/stats", authMiddleware, getAdvertisementStats);
+
+router.post("/:id/launch",registerLaunch);
 
 router.get( "/:id", getAdvertisementById);
 
