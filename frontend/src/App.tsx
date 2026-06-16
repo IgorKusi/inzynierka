@@ -13,8 +13,8 @@ import LoginPage
 import RegisterPage
     from "./pages/RegisterPage";
 
-import AdvertiserPortal
-    from "./pages/AdvertiserPortal";
+import AdvertiserPage
+    from "./pages/AdvertiserPage.tsx";
 
 import AdminPage
     from "./pages/AdminPage";
@@ -22,12 +22,20 @@ import AdminPage
 import ProtectedRoute
     from "./components/ProtectedRoute";
 
+import HomePage
+    from "./pages/HomePage";
+
 function App() {
 
     return (
         <BrowserRouter>
 
             <Routes>
+
+                <Route
+                    path="/"
+                    element={<HomePage />}
+                />
 
                 <Route
                     path="/login"
@@ -50,7 +58,7 @@ function App() {
                         <ProtectedRoute
                             role="ADVERTISER"
                         >
-                            <AdvertiserPortal />
+                            <AdvertiserPage />
                         </ProtectedRoute>
                     }
                 />

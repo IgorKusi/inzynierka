@@ -1,4 +1,5 @@
 import { prisma } from "../config/prisma.js";
+import QRCode from "qrcode";
 import { generateQRCode } from "../services/qrService.js";
 
 export const createAdvertisement = async (req: any, res: any) => {
@@ -590,3 +591,51 @@ export const registerLaunch = async (
         });
     }
 };
+
+export const getQrCode =
+    async (
+        req: any,
+        res: any
+    ) => {
+
+        try {
+
+            const advertisementId =
+                Number(
+                    req.params.id
+                );
+
+            const advertisement =
+                await prisma.advertisement.findUnique({
+
+                    where: {
+                        id: advertisementId
+                    }
+                });
+
+            if (!advertisement) {
+
+                return res.status(404).json({
+                    error:
+                        "Advertisement not found"
+                });
+            }
+
+            const qrCode =
+                await QRCode.toDataURL(
+                    advertisement.qrCodeUrl!
+                );
+
+            res.json({
+                qrCode
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).json({
+                error: "QR error"
+            });
+        }
+    };

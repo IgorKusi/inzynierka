@@ -61,6 +61,13 @@ export const getAllUsers = async (
         const users =
             await prisma.user.findMany({
 
+                select: {
+                    id: true,
+                    email: true,
+                    role: true,
+                    createdAt: true
+                },
+
                 orderBy: {
                     id: "desc"
                 }
@@ -90,7 +97,12 @@ export const getAdminAdvertisements =
                 await prisma.advertisement.findMany({
 
                     include: {
-                        user: true,
+                        user: {
+
+                            select: {
+                                email: true
+                            }
+                        },
                         coupons: true
                     },
 

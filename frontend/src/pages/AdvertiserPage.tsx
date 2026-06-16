@@ -1,23 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type { Advertisement } from "../types/Advertisement.ts";
 
 const SERVER_URL =
     "http://localhost:3000";
-
-type Advertisement = {
-
-    id: number;
-
-    brandName: string;
-
-    logoPath: string;
-
-    bannerPath: string;
-
-    qrCodeUrl: string | null;
-
-    launchCount?: number;
-};
 
 type AdvertisementStats = {
 
@@ -34,7 +20,7 @@ type AdvertisementStats = {
     conversionRate: number;
 };
 
-export default function AdvertiserPortal() {
+export default function AdvertiserPage() {
 
     const navigate =
         useNavigate();
@@ -50,6 +36,14 @@ export default function AdvertiserPortal() {
                 AdvertisementStats>
         >({});
 
+    const [brandName, setBrandName] =
+        useState("");
+
+    const [logoFile, setLogoFile] =
+        useState<File | null>(null);
+
+    const [bannerFile, setBannerFile] =
+        useState<File | null>(null);
 
     const loadStats =
         async (
@@ -88,6 +82,130 @@ export default function AdvertiserPortal() {
             "token"
         );
 
+    const uploadImage = async (
+        file: File
+    ) => {
+
+        const formData =
+            new FormData();
+
+        formData.append(
+            "image",
+            file
+        );
+
+        const response =
+            await fetch(
+                `${SERVER_URL}/upload`,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+        return response.json();
+    };
+
+    const createAdvertisement =
+        async () => {
+
+            if (
+                !brandName ||
+                !logoFile ||
+                !bannerFile
+            ) {
+
+                alert(
+                    "Uzupełnij wszystkie pola"
+                );
+
+                return;
+            }
+
+            try {
+
+                const logo =
+                    await uploadImage(
+                        logoFile
+                    );
+
+                const banner =
+                    await uploadImage(
+                        bannerFile
+                    );
+
+                const response =
+                    await fetch(
+                        `${SERVER_URL}/advertisements`,
+                        {
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                Authorization:
+                                    `Bearer ${token}`
+                            },
+
+                            body: JSON.stringify({
+
+                                brandName,
+
+                                logoPath:
+                                logo.filePath,
+
+                                bannerPath:
+                                banner.filePath
+                            })
+                        }
+                    );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Create failed"
+                    );
+                }
+
+                setBrandName("");
+
+                setLogoFile(null);
+
+                setBannerFile(null);
+
+                loadAdvertisements();
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+            }
+        };
+
+
+    const downloadQr =
+        (
+            qrCode: string,
+            brandName: string
+        ) => {
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+            link.href =
+                qrCode;
+
+            link.download =
+                `${brandName}-qr.png`;
+
+            link.click();
+        };
+
     const loadAdvertisements =
         async () => {
 
@@ -107,13 +225,47 @@ export default function AdvertiserPortal() {
                 const data =
                     await response.json();
 
+                const advertisementsWithQr =
+                    await Promise.all(
+
+                        data.map(
+                            async (
+                                advertisement: Advertisement
+                            ) => {
+
+                                try {
+
+                                    const qrResponse =
+                                        await fetch(
+                                            `${SERVER_URL}/advertisements/${advertisement.id}/qr`
+                                        );
+
+                                    const qrData =
+                                        await qrResponse.json();
+
+                                    return {
+
+                                        ...advertisement,
+
+                                        qrCode:
+                                        qrData.qrCode
+                                    };
+
+                                } catch {
+
+                                    return advertisement;
+                                }
+                            }
+                        )
+                    );
+
                 setAdvertisements(
-                    data
+                    advertisementsWithQr
                 );
 
                 for (
                     const advertisement
-                    of data
+                    of advertisementsWithQr
                     ) {
 
                     loadStats(
@@ -146,7 +298,7 @@ export default function AdvertiserPortal() {
         );
 
         navigate(
-            "/login"
+            "/"
         );
     };
 
@@ -197,6 +349,79 @@ export default function AdvertiserPortal() {
             >
                 Logout
             </button>
+
+            <hr />
+
+            <h2>
+                Create Advertisement
+            </h2>
+
+            <div>
+
+                <input
+                    type="text"
+                    placeholder="Brand Name"
+                    value={brandName}
+                    onChange={(e) =>
+                        setBrandName(
+                            e.target.value
+                        )
+                    }
+                />
+
+            </div>
+
+            <br />
+
+            <div>
+
+                <label>
+                    Logo:
+                </label>
+
+                <input
+                    type="file"
+                    onChange={(e) =>
+                        setLogoFile(
+                            e.target.files?.[0]
+                            ?? null
+                        )
+                    }
+                />
+
+            </div>
+
+            <br />
+
+            <div>
+
+                <label>
+                    Banner:
+                </label>
+
+                <input
+                    type="file"
+                    onChange={(e) =>
+                        setBannerFile(
+                            e.target.files?.[0]
+                            ?? null
+                        )
+                    }
+                />
+
+            </div>
+
+            <br />
+
+            <button
+                onClick={
+                    createAdvertisement
+                }
+            >
+                Create Advertisement
+            </button>
+
+            <hr />
 
             <hr />
 
@@ -279,6 +504,20 @@ export default function AdvertiserPortal() {
                                 }
 
                             </p>
+                            {
+                                advertisement.qrCode && (
+
+                                    <img
+                                        src={
+                                            advertisement.qrCode
+                                        }
+                                        alt="QR Code"
+                                        style={{
+                                            width: "200px"
+                                        }}
+                                    />
+                                )
+                            }
 
                             <hr />
 
@@ -348,6 +587,16 @@ export default function AdvertiserPortal() {
                                 }
                             >
                                 Copy QR Link
+                            </button>
+                            <button
+                                onClick={() =>
+                                    downloadQr(
+                                        advertisement.qrCode!,
+                                        advertisement.brandName
+                                    )
+                                }
+                            >
+                                Download QR
                             </button>
 
                             {" "}

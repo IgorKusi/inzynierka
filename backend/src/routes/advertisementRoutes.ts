@@ -14,7 +14,8 @@ import {
     getMyAdvertisements,
     getAdvertisementStats,
     getMyAdvertisementStats,
-    registerLaunch
+    registerLaunch,
+    getQrCode
 } from "../controllers/advertisementController.js";
 
 const router = Router();
@@ -30,6 +31,8 @@ router.get("/:id/coupons", getAdvertisementCoupons);
 router.get("/my/stats", authMiddleware, getMyAdvertisementStats);
 
 router.get("/my", authMiddleware, getMyAdvertisements);
+
+router.get("/:id/qr", getQrCode);
 
 router.get( "/:id/stats", authMiddleware, getAdvertisementStats);
 
