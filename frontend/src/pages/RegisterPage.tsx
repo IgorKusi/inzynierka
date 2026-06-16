@@ -6,6 +6,9 @@ import {
     useNavigate
 } from "react-router-dom";
 
+import { API_URL }
+    from "../config";
+
 export default function RegisterPage() {
 
     const navigate =
@@ -22,7 +25,7 @@ export default function RegisterPage() {
 
             const response =
                 await fetch(
-                    "http://localhost:3000/users/register",
+                    `${API_URL}/users/register`,
                     {
                         method: "POST",
 

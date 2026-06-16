@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Advertisement } from "../types/Advertisement.ts";
 
-const SERVER_URL =
-    "http://localhost:3000";
+import { API_URL }
+    from "../config";
 
 type AdvertisementStats = {
 
@@ -54,7 +54,7 @@ export default function AdvertiserPage() {
 
                 const response =
                     await fetch(
-                        `${SERVER_URL}/advertisements/${advertisementId}/stats`
+                        `${API_URL}/advertisements/${advertisementId}/stats`
                     );
 
                 const data =
@@ -96,7 +96,7 @@ export default function AdvertiserPage() {
 
         const response =
             await fetch(
-                `${SERVER_URL}/upload`,
+                `${API_URL}/upload`,
                 {
                     method: "POST",
                     body: formData
@@ -136,7 +136,7 @@ export default function AdvertiserPage() {
 
                 const response =
                     await fetch(
-                        `${SERVER_URL}/advertisements`,
+                        `${API_URL}/advertisements`,
                         {
                             method: "POST",
 
@@ -213,7 +213,7 @@ export default function AdvertiserPage() {
 
                 const response =
                     await fetch(
-                        `${SERVER_URL}/advertisements/my`,
+                        `${API_URL}/advertisements/my`,
                         {
                             headers: {
                                 Authorization:
@@ -237,7 +237,7 @@ export default function AdvertiserPage() {
 
                                     const qrResponse =
                                         await fetch(
-                                            `${SERVER_URL}/advertisements/${advertisement.id}/qr`
+                                            `${API_URL}/advertisements/${advertisement.id}/qr`
                                         );
 
                                     const qrData =
@@ -310,7 +310,7 @@ export default function AdvertiserPage() {
             try {
 
                 await fetch(
-                    `${SERVER_URL}/advertisements/${id}`,
+                    `${API_URL}/advertisements/${id}`,
                     {
                         method:
                             "DELETE",
@@ -474,7 +474,7 @@ export default function AdvertiserPage() {
 
                             <img
                                 src={
-                                    SERVER_URL +
+                                    API_URL +
                                     advertisement.logoPath
                                 }
                                 alt="Logo"
@@ -486,7 +486,7 @@ export default function AdvertiserPage() {
 
                             <img
                                 src={
-                                    SERVER_URL +
+                                    API_URL +
                                     advertisement.bannerPath
                                 }
                                 alt="Banner"

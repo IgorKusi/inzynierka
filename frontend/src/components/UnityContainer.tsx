@@ -33,13 +33,13 @@ function UnityContainer() {
                 canvasRef.current,
                 {
                     dataUrl:
-                        "/unity/Build/unity.data.br",
+                        "/unity/Build/unity.data",
 
                     frameworkUrl:
-                        "/unity/Build/unity.framework.js.br",
+                        "/unity/Build/unity.framework.js",
 
                     codeUrl:
-                        "/unity/Build/unity.wasm.br",
+                        "/unity/Build/unity.wasm",
 
                     streamingAssetsUrl:
                         "StreamingAssets",

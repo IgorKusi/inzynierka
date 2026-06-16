@@ -126,6 +126,9 @@ public class AdvertisementManager : MonoBehaviour
         string url =
             $"{ServerConfig.BaseUrl}/advertisements/game/{CurrentAdvertisementId}";
 
+        Debug.Log("REQUEST URL:");
+        Debug.Log(url);
+        
         using UnityWebRequest request =
             UnityWebRequest.Get(url);
 
@@ -171,6 +174,9 @@ public class AdvertisementManager : MonoBehaviour
         string imageUrl =
             ServerConfig.BaseUrl + imagePath;
 
+        Debug.Log("IMAGE URL:");
+        Debug.Log(imageUrl);
+        
         using UnityWebRequest request =
             UnityWebRequestTexture.GetTexture(imageUrl);
 

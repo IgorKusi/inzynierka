@@ -1,11 +1,12 @@
 import QRCode from "qrcode";
-
+import { FRONTEND_URL }
+    from "../config.js";
 export const generateQRCode = async (
     advertisementId: number
 ) => {
 
     const gameUrl =
-        `http://localhost:5173/play?ad=${advertisementId}`;
+        `${FRONTEND_URL}/play?ad=${advertisementId}`;
 
     const qrCodeDataUrl =
         await QRCode.toDataURL(gameUrl);

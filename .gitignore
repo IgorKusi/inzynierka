@@ -69,3 +69,4 @@ sysinfo.txt
 *.log
 /unity/AdGame/Assets/TextMesh Pro
 /frontend/public/unity/Build
+/frontend/public/unity/AdGame_BurstDebugInformation_DoNotShip

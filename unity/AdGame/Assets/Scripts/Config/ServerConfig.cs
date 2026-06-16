@@ -1,7 +1,5 @@
-using UnityEngine;
-
 public static class ServerConfig
 {
     public const string BaseUrl =
-        "http://localhost:3000";
+        "http://192.168.18.4:3000";
 }

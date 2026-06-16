@@ -146,15 +146,6 @@ public class CouponManager : MonoBehaviour
         CurrentQrTexture =
             DownloadHandlerTexture
                 .GetContent(request);
-
-        
-        Debug.Log(
-            $"QR SIZE: {CurrentQrTexture.width}x{CurrentQrTexture.height}"
-        );
-        
-        Debug.Log(
-            "QR DOWNLOADED"
-        );
     }
     
     

@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Advertisement } from "../types/Advertisement";
+import { API_URL }
+    from "../config";
 const SERVER_URL =
-    "http://localhost:3000";
+    fetch(
+        `${API_URL}/advertisements`
+    );
 
 type AdminStats = {
 
