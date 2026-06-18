@@ -13,22 +13,30 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float laneChangeSpeed = 10f;
 
+    [Header("Mobile Input")]
+    [SerializeField]
+    private float swipeThreshold = 50f;
+
+    private Vector2 touchStartPosition;
+
     private int currentLane = 0;
+
     public bool CanMove = true;
-    
+
     private void Update()
     {
         if (currentLane == 0)
         {
-            //wait for player 1st input to start game
+            // Wait for first input to start game
             HandleLaneInput();
             return;
         }
+
         if (!CanMove)
         {
             return;
         }
-        
+
         MoveForward();
 
         HandleLaneInput();
@@ -46,6 +54,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleLaneInput()
     {
+        HandleKeyboardInput();
+
+        HandleTouchInput();
+    }
+
+    private void HandleKeyboardInput()
+    {
         if (
             Input.GetKeyDown(KeyCode.A) ||
             Input.GetKeyDown(KeyCode.LeftArrow)
@@ -60,6 +75,69 @@ public class PlayerMovement : MonoBehaviour
         )
         {
             currentLane = 1;
+        }
+    }
+
+    private void HandleTouchInput()
+    {
+        if (Input.touchCount == 0)
+        {
+            return;
+        }
+
+        Debug.Log(
+            $"Touch count: {Input.touchCount}"
+        );
+
+        Touch touch =
+            Input.GetTouch(0);
+
+        if (
+            touch.phase ==
+            TouchPhase.Began
+        )
+        {
+            touchStartPosition =
+                touch.position;
+        }
+
+        if (
+            touch.phase ==
+            TouchPhase.Ended
+        )
+        {
+            float deltaX =
+                touch.position.x -
+                touchStartPosition.x;
+
+            Debug.Log(
+                $"Swipe delta: {deltaX}"
+            );
+
+            if (
+                Mathf.Abs(deltaX) <
+                swipeThreshold
+            )
+            {
+                return;
+            }
+
+            if (deltaX > 0)
+            {
+                currentLane = 1;
+
+                Debug.Log(
+                    "SWIPE RIGHT"
+                );
+            }
+            else
+            {
+                currentLane = -1;
+
+                Debug.Log(
+                    "SWIPE LEFT"
+                );
+            }
         }
     }
 

@@ -3,10 +3,6 @@ import { useNavigate } from "react-router-dom";
 import type { Advertisement } from "../types/Advertisement";
 import { API_URL }
     from "../config";
-const SERVER_URL =
-    fetch(
-        `${API_URL}/advertisements`
-    );
 
 type AdminStats = {
 
@@ -59,7 +55,7 @@ export default function AdminPage() {
 
             const response =
                 await fetch(
-                    `${SERVER_URL}/admin/stats`,
+                    `${API_URL}/admin/stats`,
                     {
                         headers: {
                             Authorization:
@@ -79,7 +75,7 @@ export default function AdminPage() {
 
             const response =
                 await fetch(
-                    `${SERVER_URL}/admin/users`,
+                    `${API_URL}/admin/users`,
                     {
                         headers: {
                             Authorization:
@@ -99,7 +95,7 @@ export default function AdminPage() {
 
             const response =
                 await fetch(
-                    `${SERVER_URL}/admin/advertisements`,
+                    `${API_URL}/admin/advertisements`,
                     {
                         headers: {
                             Authorization:
@@ -137,9 +133,6 @@ export default function AdminPage() {
         navigate("/");
     };
 
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
     return (
 
         <div
@@ -345,7 +338,7 @@ export default function AdminPage() {
 
                             <img
                                 src={
-                                    SERVER_URL +
+                                    API_URL +
                                     advertisement.logoPath
                                 }
                                 alt="logo"
@@ -359,7 +352,7 @@ export default function AdminPage() {
 
                             <img
                                 src={
-                                    SERVER_URL +
+                                    API_URL +
                                     advertisement.bannerPath
                                 }
                                 alt="banner"

@@ -54,7 +54,13 @@ export default function AdvertiserPage() {
 
                 const response =
                     await fetch(
-                        `${API_URL}/advertisements/${advertisementId}/stats`
+                        `${API_URL}/advertisements/${advertisementId}/stats`,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ${token}`
+                            }
+                        }
                     );
 
                 const data =

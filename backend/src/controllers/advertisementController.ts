@@ -556,7 +556,11 @@ export const registerLaunch = async (
     req: any,
     res: any
 ) => {
-
+    console.log(
+        "REGISTER LAUNCH:",
+        req.params.id,
+        new Date().toISOString()
+    );
     try {
 
         const id =

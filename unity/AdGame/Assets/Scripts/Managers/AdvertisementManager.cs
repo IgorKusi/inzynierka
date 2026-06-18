@@ -38,6 +38,10 @@ public class AdvertisementManager : MonoBehaviour
 
     private void Awake()
     {
+        
+        Debug.Log(
+            $"AdvertisementManager Awake {GetInstanceID()}"
+        );
         if (Instance == null)
         {
             Instance = this;
@@ -53,6 +57,10 @@ public class AdvertisementManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(
+            $"AdvertisementManager Start {GetInstanceID()}"
+        );
+
         StartCoroutine(LoadAdvertisement());
     }
 
@@ -123,11 +131,12 @@ public class AdvertisementManager : MonoBehaviour
     }
     private IEnumerator LoadAdvertisement()
     {
+        yield return StartCoroutine(
+            RegisterLaunch()
+        );
+        
         string url =
             $"{ServerConfig.BaseUrl}/advertisements/game/{CurrentAdvertisementId}";
-
-        Debug.Log("REQUEST URL:");
-        Debug.Log(url);
         
         using UnityWebRequest request =
             UnityWebRequest.Get(url);
@@ -202,5 +211,36 @@ public class AdvertisementManager : MonoBehaviour
             Debug.Log("Banner loaded");
         }
     }
-    
+    private IEnumerator RegisterLaunch()
+    {
+        Debug.Log(
+            $"REGISTERING LAUNCH FOR AD {CurrentAdvertisementId}"
+        );
+
+        Debug.Log(
+            Environment.StackTrace
+        );
+
+        
+        string url =
+            $"{ServerConfig.BaseUrl}/advertisements/{CurrentAdvertisementId}/launch";
+
+        using UnityWebRequest request =
+            UnityWebRequest.PostWwwForm(url, "");
+
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(
+                $"Launch registration failed: {request.error}"
+            );
+
+            yield break;
+        }
+
+        Debug.Log(
+            "Launch registered"
+        );
+    }    
 }
