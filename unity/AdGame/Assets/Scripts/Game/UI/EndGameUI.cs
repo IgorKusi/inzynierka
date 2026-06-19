@@ -47,14 +47,12 @@ public class EndGameUI : MonoBehaviour
 
     private void OnCouponGenerated()
     {
-        Debug.Log("EVENT RECEIVED");
 
         ShowVictory();
     }
 
     public void ShowVictory()
     {
-        Debug.Log("ShowVictory");
 
         endGamePanel.SetActive(true);
 

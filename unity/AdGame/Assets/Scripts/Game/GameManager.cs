@@ -17,10 +17,17 @@ public class GameManager : MonoBehaviour
     {
         boss = FindObjectOfType<BossController>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        Debug.Log(player);
     }
 
     private void Update()
     {
+        if(player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+            Debug.Log("Update" + player);
+        }
+        
         if (gameFinished)
         {
             return;
@@ -34,22 +41,34 @@ public class GameManager : MonoBehaviour
 
     private void ResolveBossFight()
     {
-        gameFinished = true;
-
         if (boss.IsDefeated())
         {
-            CouponManager.Instance.GenerateCoupon(
-                AdvertisementManager
-                    .Instance
-                    .CurrentAdvertisementId
-            );
+            EndGameWin();
         }
         else
         {
-            EndGameUI.Instance.ShowDefeat();
+            EndGameDefeat();
         }
+        
+    }
+
+    public void EndGameDefeat()
+    {
+        gameFinished = true;
+        EndGameUI.Instance.ShowDefeat();
         player
             .GetComponent<PlayerMovement>()
             .CanMove = false;
+        
+    }
+
+    public void EndGameWin()
+    { 
+        gameFinished = true;
+        EndGameUI.Instance.ShowVictory();
+        CouponManager.Instance.GenerateCoupon(AdvertisementManager
+                    .Instance
+                    .CurrentAdvertisementId);
+        
     }
 }

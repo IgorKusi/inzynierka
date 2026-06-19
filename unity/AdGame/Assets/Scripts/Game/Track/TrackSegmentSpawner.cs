@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -24,6 +25,9 @@ public class TrackSegmentSpawner : MonoBehaviour
     [SerializeField]
     private GameManager gameManager;
     
+    [SerializeField]
+    public List<GameObject> trapSegmentPrefabs;
+    
     public void Start()
     {
         
@@ -43,7 +47,7 @@ public class TrackSegmentSpawner : MonoBehaviour
         {
             GameObject trackSegment = Instantiate(
                 trackSegmentPrefab,
-                new Vector3(2*i * (-10), 0, 0),
+                new Vector3(3*i * (-10), 0, 0),
                 Quaternion.identity
             );
             trackSegment.transform.parent = transform;
@@ -54,34 +58,30 @@ public class TrackSegmentSpawner : MonoBehaviour
                 if (gate.leftOperation == GateOperationType.Add)
                 {
                     bossPower += gate.leftValue;
-                    Debug.Log("Left added " + gate.leftValue);
                 }
 
                 if (gate.rightOperation == GateOperationType.Add)
                 {
                     bossPower += gate.rightValue;
-                    Debug.Log("Right added " + gate.rightValue);
                 }
 
                 if (gate.leftOperation == GateOperationType.Multiply)
                 {
                     bossPower *= gate.leftValue;
-                    Debug.Log("Left x  " + gate.leftValue);
                 }
 
                 if (gate.rightOperation == GateOperationType.Multiply)
                 {
                     bossPower *= gate.rightValue;
-                    Debug.Log("Right x  " + gate.rightValue);
                 }
             }
-
-            Debug.Log(bossPower);
+            
+            
 
         }
         bossPower = (int)(bossPower * 3 / 4);
         //spawn boss on last track segment
-        int bossArenaSpawnX = trackLen * (-20) -5;
+        int bossArenaSpawnX = trackLen * (-30) -5;
         GameObject bossArena = Instantiate( 
             bossArenaPrefab,
             new Vector3(bossArenaSpawnX, 0, 0),

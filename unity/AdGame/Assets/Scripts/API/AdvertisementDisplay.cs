@@ -68,9 +68,5 @@ public class AdvertisementDisplay : MonoBehaviour
 
         targetRenderer.material.mainTexture =
             texture;
-
-        Debug.Log(
-            $"Advertisement applied ({imageType})"
-        );
     }
 }

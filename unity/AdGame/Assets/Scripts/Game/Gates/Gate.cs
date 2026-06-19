@@ -59,10 +59,6 @@ public class Gate : MonoBehaviour
             operation,
             value
         );
-
-        Debug.Log(
-            $"Gate used: {operation} {value}"
-        );
     }
 
     private void ApplyOperation(

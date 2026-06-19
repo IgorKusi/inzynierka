@@ -109,10 +109,7 @@ public class CouponManager : MonoBehaviour
                 CurrentCoupon
             )
         );
-
-        Debug.Log(
-            $"COUPON GENERATED: {CurrentCoupon}"
-        );
+        
         
         CouponGenerated?.Invoke();
     }
