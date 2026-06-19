@@ -6,7 +6,7 @@ public class CrowdManager : MonoBehaviour
 
     [SerializeField]
     private int startCount = 10;
-
+    
     public int CurrentCount
     {
         get;
@@ -15,7 +15,6 @@ public class CrowdManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("CrowdManager Awake");
         if (Instance == null)
         {
             Instance = this;
@@ -24,12 +23,7 @@ public class CrowdManager : MonoBehaviour
         CurrentCount =
             startCount;
     }
-
-    private void Start()
-    {
-        Debug.Log("Current Count = " + CurrentCount);
-    }
-
+    
     public void Add(
         int value
     )
@@ -37,10 +31,6 @@ public class CrowdManager : MonoBehaviour
         CurrentCount += value;
 
         NotifyFollowers();
-
-        Debug.Log(
-            $"Crowd: {CurrentCount}"
-        );
     }
 
     public void Subtract(
@@ -55,10 +45,7 @@ public class CrowdManager : MonoBehaviour
         }
 
         NotifyFollowers();
-
-        Debug.Log(
-            $"Crowd: {CurrentCount}"
-        );
+        
     }
 
     public void Multiply(
@@ -68,10 +55,7 @@ public class CrowdManager : MonoBehaviour
         CurrentCount *= value;
 
         NotifyFollowers();
-
-        Debug.Log(
-            $"Crowd: {CurrentCount}"
-        );
+        
     }
 
     public void Divide(
@@ -91,10 +75,6 @@ public class CrowdManager : MonoBehaviour
         }
 
         NotifyFollowers();
-
-        Debug.Log(
-            $"Crowd: {CurrentCount}"
-        );
     }
 
     private void NotifyFollowers()
@@ -106,5 +86,10 @@ public class CrowdManager : MonoBehaviour
             FollowerManager.Instance
                 .SyncFollowers();
         }
+    }
+
+    public int getStartCount()
+    {
+        return startCount;
     }
 }

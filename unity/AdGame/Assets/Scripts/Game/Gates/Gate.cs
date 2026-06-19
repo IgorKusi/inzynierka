@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using TMPro;
+using Random = System.Random;
 
 public enum GateOperationType
 {
@@ -26,6 +28,11 @@ public class Gate : MonoBehaviour
 
     [SerializeField]
     private TMP_Text rightText;
+
+    public void Start()
+    {
+        
+    }
 
     public void ApplyOption(
         bool leftSide
@@ -131,5 +138,24 @@ public class Gate : MonoBehaviour
         }
 
         return "";
+    }
+
+    public void SetGates()
+    {
+        int i = new Random().Next(1, 4);
+        leftOperation = (GateOperationType)i;
+        if (leftOperation == GateOperationType.Add)
+            rightOperation = GateOperationType.Subtract;
+        else if (leftOperation == GateOperationType.Multiply)
+            rightOperation = GateOperationType.Divide;
+        else if (leftOperation == GateOperationType.Subtract)
+            rightOperation = GateOperationType.Add;
+        else if (leftOperation == GateOperationType.Divide)
+            rightOperation = GateOperationType.Multiply;
+        
+        leftValue = new Random().Next(1, 10);
+        rightValue = new Random().Next(1, 10);
+        
+        UpdateTexts();
     }
 }

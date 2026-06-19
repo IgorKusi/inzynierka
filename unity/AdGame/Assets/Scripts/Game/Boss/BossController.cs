@@ -9,8 +9,6 @@ public class BossController : MonoBehaviour
     [SerializeField]
     private TMP_Text powerText;
 
-    public int BossPower => bossPower;
-
     private void Start()
     {
         if (powerText != null)
@@ -22,5 +20,10 @@ public class BossController : MonoBehaviour
     public bool IsDefeated()
     {
         return CrowdManager.Instance.CurrentCount >= bossPower;
+    }
+    
+    public void SetBossPower(int value)
+    {
+        bossPower = value;
     }
 }

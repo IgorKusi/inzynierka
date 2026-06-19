@@ -77,3 +77,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bd0d5fd85fe24182a7e581993e45d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossController
+  bossPower: 500
+  powerText: {fileID: 0}

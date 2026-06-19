@@ -39,9 +39,6 @@ public class AdvertisementManager : MonoBehaviour
     private void Awake()
     {
         
-        Debug.Log(
-            $"AdvertisementManager Awake {GetInstanceID()}"
-        );
         if (Instance == null)
         {
             Instance = this;
@@ -57,25 +54,13 @@ public class AdvertisementManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(
-            $"AdvertisementManager Start {GetInstanceID()}"
-        );
-
         StartCoroutine(LoadAdvertisement());
     }
 
     private void InitializeAdvertisementId()
     {
-        Debug.Log(
-            "Launch URL: " +
-            Application.absoluteURL
-        );
         CurrentAdvertisementId =
             GetAdvertisementIdFromUrl();
-
-        Debug.Log(
-            $"Advertisement ID: {CurrentAdvertisementId}"
-        );
     }
 
     private int GetAdvertisementIdFromUrl()
@@ -90,8 +75,6 @@ public class AdvertisementManager : MonoBehaviour
         {
             url = Application.absoluteURL;
         }
-
-        Debug.Log($"Launch URL: {url}");
 
         string parameter =
             "ad=";
@@ -155,10 +138,6 @@ public class AdvertisementManager : MonoBehaviour
         CurrentAdvertisement =
             JsonUtility.FromJson<Advertisement>(json);
 
-        Debug.Log(
-            $"Advertisement loaded: {CurrentAdvertisement.brandName}"
-        );
-
         yield return StartCoroutine(
             DownloadTexture(
                 CurrentAdvertisement.logoPath,
@@ -182,9 +161,6 @@ public class AdvertisementManager : MonoBehaviour
     {
         string imageUrl =
             ServerConfig.BaseUrl + imagePath;
-
-        Debug.Log("IMAGE URL:");
-        Debug.Log(imageUrl);
         
         using UnityWebRequest request =
             UnityWebRequestTexture.GetTexture(imageUrl);
@@ -203,25 +179,14 @@ public class AdvertisementManager : MonoBehaviour
         if (isLogo)
         {
             LogoTexture = texture;
-            Debug.Log("Logo loaded");
         }
         else
         {
             BannerTexture = texture;
-            Debug.Log("Banner loaded");
         }
     }
     private IEnumerator RegisterLaunch()
     {
-        Debug.Log(
-            $"REGISTERING LAUNCH FOR AD {CurrentAdvertisementId}"
-        );
-
-        Debug.Log(
-            Environment.StackTrace
-        );
-
-        
         string url =
             $"{ServerConfig.BaseUrl}/advertisements/{CurrentAdvertisementId}/launch";
 
@@ -232,15 +197,7 @@ public class AdvertisementManager : MonoBehaviour
 
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError(
-                $"Launch registration failed: {request.error}"
-            );
-
             yield break;
         }
-
-        Debug.Log(
-            "Launch registered"
-        );
     }    
 }

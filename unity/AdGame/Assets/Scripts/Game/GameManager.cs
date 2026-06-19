@@ -1,17 +1,23 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private Transform player;
-
-    [SerializeField]
+    public Transform player;
+    
     private BossController boss;
-
-    [SerializeField]
-    private float bossFightX = -550f;
+    
+    [FormerlySerializedAs("bossFightX")] [SerializeField]
+    private float bossFightDistance = 10f;
 
     private bool gameFinished;
+
+    public void Start()
+    {
+        boss = FindObjectOfType<BossController>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     private void Update()
     {
@@ -20,7 +26,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (player.position.x <= bossFightX)
+        if (Mathf.Abs(player.position.x - boss.transform.position.x) <= bossFightDistance)
         {
             ResolveBossFight();
         }
