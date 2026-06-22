@@ -82,21 +82,19 @@ function UnityContainer() {
 
         <div
             style={{
-                width: "100%",
-                maxWidth: "1200px",
-                margin: "0 auto"
+                width: "100vw",
+                height: "100vh",
+                overflow: "hidden"
             }}
         >
 
             <canvas
                 ref={canvasRef}
                 id="unity-canvas"
-                width={1200}
-                height={700}
                 style={{
                     width: "100%",
-                    border:
-                        "2px solid white"
+                    height: "100%",
+                    display: "block"
                 }}
             />
 

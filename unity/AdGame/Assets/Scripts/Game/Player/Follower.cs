@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Follower : MonoBehaviour
@@ -8,6 +9,18 @@ public class Follower : MonoBehaviour
     private float followSpeed = 8f;
 
     private Vector3 targetOffset;
+    
+    [SerializeField]
+    private Animator animator;
+
+    private void Start()
+    {
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+            animator.SetBool("CanMove", false);
+        }
+    }
 
     public void SetLeader(Transform newLeader)
     {
@@ -46,5 +59,14 @@ public class Follower : MonoBehaviour
 
         transform.rotation =
             leader.rotation;
+        UpdateAnimations();
+    }
+
+
+
+    private void UpdateAnimations()
+    {
+        bool CanMove = leader.gameObject.GetComponent<PlayerMovement>().CanMove;
+        animator.SetBool("CanMove", CanMove);
     }
 }

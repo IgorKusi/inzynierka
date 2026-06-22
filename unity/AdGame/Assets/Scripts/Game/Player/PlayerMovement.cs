@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -21,8 +22,17 @@ public class PlayerMovement : MonoBehaviour
 
     private int currentLane = 0;
 
-    public bool CanMove = true;
+    public bool CanMove = false;
 
+    private bool firstInput = false;
+    
+    [SerializeField]
+    public Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     private void Update()
     {
         if (currentLane == 0)
@@ -31,7 +41,12 @@ public class PlayerMovement : MonoBehaviour
             HandleLaneInput();
             return;
         }
-
+        else if (currentLane != 0 && !firstInput)
+        {
+            CanMove = true;
+            firstInput = true;
+        }
+        Debug.Log("CanMove: " + CanMove);
         if (!CanMove)
         {
             return;
@@ -42,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
         HandleLaneInput();
 
         MoveToLane();
+        
+        UpdateAnimator();
     }
 
     private void MoveForward()
@@ -161,5 +178,20 @@ public class PlayerMovement : MonoBehaviour
                 laneChangeSpeed *
                 Time.deltaTime
             );
+    }
+
+    private void UpdateAnimator()
+    {
+        if (animator != null)
+        {
+            if (!CanMove)
+            {
+                animator.SetBool("CanMove", false);
+            }
+            else
+            {
+                animator.SetBool("CanMove", true);
+            }
+        }
     }
 }

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 3e5399bd195de7649b874f58c1b9f8a3, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ec8677cd5107d4094555d7beb9efe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AdvertisementManager
-  editorLaunchUrl: ?ad=3
+  editorLaunchUrl: ?ad=1
 --- !u!114 &306845518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,8 +320,8 @@ MonoBehaviour:
   trackLen: 5
   trackSegmentPrefab: {fileID: 681644862304557296, guid: 15a39b614b4ee5042bfb917c28a7ef6a, type: 3}
   bossArenaPrefab: {fileID: 4368493319781776080, guid: 038c1f5cdb059d04ea22ee3a37e04e3e, type: 3}
-  bossPrefab: {fileID: 821616154800606459, guid: 85ea7c4267a7f214c9e4ceac179a8607, type: 3}
-  playerPrefab: {fileID: 899470606464339575, guid: 06050baccb5507f42a43e5ad2ca95a4d, type: 3}
+  bossPrefab: {fileID: 7213910383948894529, guid: 3c35115400d13b6439a42261538dec7d, type: 3}
+  playerPrefab: {fileID: 9071757198909235018, guid: 496636d1f0a29ad47afb8c1e3ea02c71, type: 3}
   gameManager: {fileID: 306845518}
   trapSegmentPrefabs:
   - {fileID: 7261828300254652446, guid: ec2c774c0908bef41ad122087e235117, type: 3}

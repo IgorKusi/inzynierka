@@ -13,26 +13,26 @@ public class GameManager : MonoBehaviour
 
     private bool gameFinished;
 
-    public void Start()
-    {
-        boss = FindObjectOfType<BossController>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        Debug.Log(player);
-    }
-
     private void Update()
     {
         if(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
-            Debug.Log("Update" + player);
+            player.transform.rotation = Quaternion.Euler(0, -90, 0);
+            return;
+        }
+
+        if (boss == null)
+        {
+            boss = FindObjectOfType<BossController>();
+            boss.gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+            return;
         }
         
         if (gameFinished)
         {
             return;
         }
-
         if (Mathf.Abs(player.position.x - boss.transform.position.x) <= bossFightDistance)
         {
             ResolveBossFight();
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
         player
             .GetComponent<PlayerMovement>()
             .CanMove = false;
+        player.GetComponent<PlayerMovement>().animator.SetBool("CanMove", false);
         
     }
 
@@ -69,6 +70,10 @@ public class GameManager : MonoBehaviour
         CouponManager.Instance.GenerateCoupon(AdvertisementManager
                     .Instance
                     .CurrentAdvertisementId);
+        player
+            .GetComponent<PlayerMovement>()
+            .CanMove = false;
+        player.GetComponent<PlayerMovement>().animator.SetBool("CanMove", false);
         
     }
 }

@@ -14,6 +14,7 @@ public class AdvertisementDisplay : MonoBehaviour
     [SerializeField]
     private AdvertisementImageType imageType =
         AdvertisementImageType.Logo;
+    
 
     private void Start()
     {
@@ -28,6 +29,7 @@ public class AdvertisementDisplay : MonoBehaviour
         {
             ApplyAdvertisement();
         }
+        
     }
 
     private void Awake()
@@ -68,5 +70,9 @@ public class AdvertisementDisplay : MonoBehaviour
 
         targetRenderer.material.mainTexture =
             texture;
+        
+        
+        
+        
     }
 }

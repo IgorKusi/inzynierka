@@ -88,7 +88,7 @@ public class FollowerManager : MonoBehaviour
         );
 
         float x = Random.Range(
-            0.5f,
+            -0.1f,
             crowdLength
         );
 
