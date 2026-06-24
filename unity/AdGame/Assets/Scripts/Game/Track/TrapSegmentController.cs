@@ -1,23 +1,81 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TrapSegmentController : MonoBehaviour
 {
-    TrackSegmentSpawner trackSegmentSpawner;
-
-    
+    private TrackSegmentSpawner trackSegmentSpawner;
+    private GameManager gameManager;
+    private GameObject trapSegmentPlaceholder;
     private void Awake()
     {
-        // trackSegmentSpawner = FindObjectOfType<TrackSegmentSpawner>();
-        // GameObject trapSegment = trackSegmentSpawner.trapSegmentPrefabs[Random.Range(0, trackSegmentSpawner.trapSegmentPrefabs.Count)];
-        // Debug.Log(trapSegment);
-        // //trapSegment.transform.parent = transform.parent.transform;
-        // trapSegment.transform.localPosition = Vector3.zero;
-        // trapSegment.transform.localRotation = Quaternion.identity;
-        // trapSegment.transform.localScale = Vector3.one;
+        trapSegmentPlaceholder =
+            gameObject.transform.Find("TrapSegment")?.gameObject;
         
-        // Instantiate(trapSegment, transform.position, transform.rotation);
-        //Destroy(gameObject);
+        if (trapSegmentPlaceholder == null)
+        {
+            Debug.LogError(
+                "TrapSegment child not found"
+            );
+
+            return;
+        }
+        
+        gameManager = FindObjectOfType<GameManager>();
+        if (gameManager == null)
+        {
+            Debug.LogError("No GameManager found");
+        }
+        
+        if (trackSegmentSpawner == null)
+        {
+            trackSegmentSpawner =
+                FindObjectOfType<TrackSegmentSpawner>();
+        }
+        
+        if (trackSegmentSpawner == null)
+        {
+            Debug.LogError(
+                "TrackSegmentSpawner not found"
+            );
+            return;
+        }
+        
+        if (
+            trackSegmentSpawner.trapSegmentPrefabs == null ||
+            trackSegmentSpawner.trapSegmentPrefabs.Count == 0
+        )
+        {
+            Debug.LogError(
+                "No trap prefabs assigned"
+            );
+            return;
+        }
+
+        GameObject prefab =
+            trackSegmentSpawner.trapSegmentPrefabs[
+                Random.Range(
+                    0,
+                    trackSegmentSpawner.trapSegmentPrefabs.Count
+                )
+            ];
+
+        if (trapSegmentPlaceholder == null)
+        {
+            Debug.LogError(
+                $"Placeholder is NULL on {gameObject.name}"
+            );
+
+            return;
+        }
+        Transform parent =
+            trapSegmentPlaceholder.transform.parent;
+
+        Instantiate(
+            prefab,
+            trapSegmentPlaceholder.transform.position,
+            trapSegmentPlaceholder.transform.rotation,
+            parent
+        );
+
+        Destroy(trapSegmentPlaceholder);
     }
-    
 }

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5906809482513566125}
+  - component: {fileID: 9071655395202575779}
   m_Layer: 0
   m_Name: TrackSegment
   m_TagString: Untagged
@@ -34,6 +35,19 @@ Transform:
   - {fileID: 7301419317649398981}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9071655395202575779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681644862304557296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e887cf044a1fa74bb743e2dfe3fb3ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrapSegmentController
+  trapSegmentPlaceholder: {fileID: 5635590713319291659}
 --- !u!1 &4885162620039319390
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,7 +453,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrapSegment
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6448351590409603969, guid: 341fa098711ac8346a326810414b43ad, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -447,5 +462,10 @@ PrefabInstance:
 --- !u!4 &1836499632990678092 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 420716171087146330, guid: 341fa098711ac8346a326810414b43ad, type: 3}
+  m_PrefabInstance: {fileID: 2065500279152967958}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5635590713319291659 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5953620625535859229, guid: 341fa098711ac8346a326810414b43ad, type: 3}
   m_PrefabInstance: {fileID: 2065500279152967958}
   m_PrefabAsset: {fileID: 0}

@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
             CanMove = true;
             firstInput = true;
         }
-        Debug.Log("CanMove: " + CanMove);
+        
         if (!CanMove)
         {
             return;
@@ -102,10 +102,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Debug.Log(
-            $"Touch count: {Input.touchCount}"
-        );
-
         Touch touch =
             Input.GetTouch(0);
 
@@ -126,11 +122,7 @@ public class PlayerMovement : MonoBehaviour
             float deltaX =
                 touch.position.x -
                 touchStartPosition.x;
-
-            Debug.Log(
-                $"Swipe delta: {deltaX}"
-            );
-
+            
             if (
                 Mathf.Abs(deltaX) <
                 swipeThreshold
@@ -142,18 +134,11 @@ public class PlayerMovement : MonoBehaviour
             if (deltaX > 0)
             {
                 currentLane = 1;
-
-                Debug.Log(
-                    "SWIPE RIGHT"
-                );
             }
             else
             {
                 currentLane = -1;
-
-                Debug.Log(
-                    "SWIPE LEFT"
-                );
+                
             }
         }
     }

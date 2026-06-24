@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class TrackSegmentSpawner : MonoBehaviour
 {
@@ -53,6 +50,10 @@ public class TrackSegmentSpawner : MonoBehaviour
             trackSegment.transform.parent = transform;
             Gate gate = trackSegment.GetComponentInChildren<Gate>();
             gate.SetGates();
+            if (i == 0)
+            {
+                Destroy(gate.gameObject);
+            }
             if (i != 0)
             {
                 if (gate.leftOperation == GateOperationType.Add)

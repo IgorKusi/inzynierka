@@ -26,4 +26,9 @@ public class BossController : MonoBehaviour
     {
         bossPower = value;
     }
+
+    public TMP_Text GetPowerText()
+    {
+        return powerText;
+    }
 }

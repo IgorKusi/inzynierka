@@ -9,10 +9,20 @@ public class Trap : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         trapCollider = GetComponent<Collider>();
+        if (trapCollider == null)
+        {
+            Debug.LogError("TrapCollider is missing");
+        }
+
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager is missing");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Collision detected with " + other.name);
         if (other.tag == "Player")
         {
             gameManager.EndGameDefeat();
