@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e887cf044a1fa74bb743e2dfe3fb3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrapSegmentController
-  trapSegmentPlaceholder: {fileID: 5635590713319291659}
 --- !u!1 &4885162620039319390
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +115,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0cb4b4dfd34ab674c9096ca856ba6d45, type: 2}
+  - {fileID: 2100000, guid: a708f9f00e75220499a371f7f7aee942, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -245,7 +244,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b4fd26ccb3cd72f449fd8951e1f9f407, type: 2}
+  - {fileID: 2100000, guid: a708f9f00e75220499a371f7f7aee942, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -320,6 +319,18 @@ PrefabInstance:
       propertyPath: imageType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2488825844168209568, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488825844168209568, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236244281043703824, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 16.01
+      objectReference: {fileID: 0}
     - target: {fileID: 3656186036325563558, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
@@ -364,14 +375,62 @@ PrefabInstance:
       propertyPath: imageType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4526153170461094005, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 42.06
+      objectReference: {fileID: 0}
     - target: {fileID: 5738505331861676522, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: b4fd26ccb3cd72f449fd8951e1f9f407, type: 2}
+      objectReference: {fileID: 2100000, guid: 09ac292367477844b852ccac88ad2f23, type: 2}
+    - target: {fileID: 7162485291999375916, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162485291999375916, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162485291999375916, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162485291999375916, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162485291999375916, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162485291999375916, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162485291999375916, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263360540368822563, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: AddOptionMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 09ac292367477844b852ccac88ad2f23, type: 2}
+    - target: {fileID: 7263360540368822563, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: SubOptionMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 583a0000a48f446459871de69f44b800, type: 2}
     - target: {fileID: 8102980161881917306, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: b4fd26ccb3cd72f449fd8951e1f9f407, type: 2}
+      objectReference: {fileID: 2100000, guid: 09ac292367477844b852ccac88ad2f23, type: 2}
+    - target: {fileID: 8136722651742590041, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: AddOptionMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 09ac292367477844b852ccac88ad2f23, type: 2}
+    - target: {fileID: 8136722651742590041, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
+      propertyPath: SubOptionMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 583a0000a48f446459871de69f44b800, type: 2}
     - target: {fileID: 8875586016272451975, guid: 24577bd730b90654fb072f4f86716e87, type: 3}
       propertyPath: m_Name
       value: GATE
@@ -448,7 +507,7 @@ PrefabInstance:
     - target: {fileID: 3285270016461855826, guid: 341fa098711ac8346a326810414b43ad, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: b4fd26ccb3cd72f449fd8951e1f9f407, type: 2}
+      objectReference: {fileID: 2100000, guid: a708f9f00e75220499a371f7f7aee942, type: 2}
     - target: {fileID: 5953620625535859229, guid: 341fa098711ac8346a326810414b43ad, type: 3}
       propertyPath: m_Name
       value: TrapSegment
@@ -462,10 +521,5 @@ PrefabInstance:
 --- !u!4 &1836499632990678092 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 420716171087146330, guid: 341fa098711ac8346a326810414b43ad, type: 3}
-  m_PrefabInstance: {fileID: 2065500279152967958}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5635590713319291659 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5953620625535859229, guid: 341fa098711ac8346a326810414b43ad, type: 3}
   m_PrefabInstance: {fileID: 2065500279152967958}
   m_PrefabAsset: {fileID: 0}
