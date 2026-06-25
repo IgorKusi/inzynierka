@@ -64,16 +64,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void EndGameWin()
-    { 
+    {
         gameFinished = true;
-        EndGameUI.Instance.ShowVictory();
-        CouponManager.Instance.GenerateCoupon(AdvertisementManager
-                    .Instance
-                    .CurrentAdvertisementId);
-        player
-            .GetComponent<PlayerMovement>()
-            .CanMove = false;
+
+        CouponManager.Instance.GenerateCoupon(
+            AdvertisementManager.Instance.CurrentAdvertisementId
+        );
+
+        player.GetComponent<PlayerMovement>().CanMove = false;
         player.GetComponent<PlayerMovement>().animator.SetBool("CanMove", false);
-        
     }
 }

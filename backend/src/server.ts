@@ -10,6 +10,7 @@ import advertisementRoutes from "./routes/advertisementRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import voucherRoutes from "./routes/voucherRoutes.js";
 
 const app = express();
 
@@ -33,10 +34,14 @@ const upload = multer({
 
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({
+    limit: "20mb"
+}));
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/vouchers", express.static(path.join(process.cwd(), "vouchers")));
 app.use("/advertisements", advertisementRoutes);
 app.use("/upload", uploadRoutes);
+app.use("/voucher", voucherRoutes);
 app.use("/coupons", couponRoutes);
 app.use("/users", userRoutes);
 app.use("/admin", adminRoutes);

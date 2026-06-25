@@ -33,8 +33,18 @@ public class EndGameUI : MonoBehaviour
     
     [SerializeField]
     private TMP_Text subtitleText;
+    
+    [SerializeField]
+    private Canvas voucherCanvas;
+    
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
 
         endGamePanel.SetActive(false);
@@ -146,15 +156,21 @@ public class EndGameUI : MonoBehaviour
     }
     private void RestartGame()
     {
+#if UNITY_WEBGL && !UNITY_EDITOR
+
+    Application.OpenURL(Application.absoluteURL);
+
+#else
+
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().buildIndex
         );
+
+#endif
     }
     private void DownloadCoupon()
     {
-        Debug.Log(
-            $"Coupon: {CouponManager.Instance.CurrentCoupon}"
-        );
+        VoucherGenerator.Instance.GenerateVoucher();
     }
     
 }
