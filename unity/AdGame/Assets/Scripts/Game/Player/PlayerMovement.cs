@@ -35,16 +35,19 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        if (currentLane == 0)
+        if (!firstInput)
         {
-            // Wait for first input to start game
             HandleLaneInput();
-            return;
-        }
-        else if (currentLane != 0 && !firstInput)
-        {
-            CanMove = true;
+
+            if (currentLane == 0)
+            {
+                return;
+            }
+
             firstInput = true;
+            CanMove = true;
+
+            StartGameUI.Instance.Hide();
         }
         
         if (!CanMove)
