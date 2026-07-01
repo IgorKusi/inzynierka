@@ -1,10 +1,13 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Follower : MonoBehaviour
 {
     private Transform leader;
-
+    private BossController bossController;
+    private bool hasAttacked;
+    private int damage;
     [SerializeField]
     private float followSpeed = 8f;
 
@@ -13,6 +16,13 @@ public class Follower : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    private bool attackingBoss;
+
+    private Transform bossTarget;
+    
+    private Vector3 attackPosition;
+    private bool chargingBoss;
+    private Vector3 chargePosition;
     private void Start()
     {
         if (animator == null)
@@ -34,12 +44,67 @@ public class Follower : MonoBehaviour
 
     private void Update()
     {
+        Vector3 targetPosition;
+        if (attackingBoss)
+        {
+            if (bossTarget == null)
+            {
+                return;
+            }
+
+            targetPosition =
+                attackPosition;
+
+            transform.position =
+                Vector3.MoveTowards(
+                    transform.position,
+                    targetPosition,
+                    followSpeed * Time.deltaTime
+                ); 
+            if(
+                !chargingBoss &&
+                Vector3.Distance(
+                    transform.position,
+                    attackPosition
+                ) < 0.15f
+            )
+            {
+                chargingBoss = true;
+            }
+            if(chargingBoss)
+            {
+                transform.position =
+                    Vector3.MoveTowards(
+                        transform.position,
+                        chargePosition,
+                        followSpeed * 3f * Time.deltaTime
+                    );
+
+                if(
+                    !hasAttacked &&
+                    Vector3.Distance(
+                        transform.position,
+                        chargePosition
+                    ) < 0.1f
+                )
+                {
+                    Attack();
+                }
+            }
+
+            transform.LookAt(bossTarget);
+
+            UpdateAnimations();
+
+            return;
+        }
+
         if (leader == null)
         {
             return;
         }
 
-        Vector3 targetPosition =
+        targetPosition =
             leader.position +
             targetOffset;
 
@@ -66,7 +131,53 @@ public class Follower : MonoBehaviour
 
     private void UpdateAnimations()
     {
-        bool CanMove = leader.gameObject.GetComponent<PlayerMovement>().CanMove;
-        animator.SetBool("CanMove", CanMove);
+        if (attackingBoss)
+        {
+            animator.SetBool("CanMove", true);
+            return;
+        }
+
+        bool canMove =
+            leader.GetComponent<PlayerMovement>().CanMove;
+
+        animator.SetBool("CanMove", canMove);
+    }
+    
+    public void AttackBoss(
+        Transform boss,
+        BossController controller,
+        int damagePerFollower
+    )
+    {
+        attackingBoss = true;
+
+        bossTarget = boss;
+
+        bossController = controller;
+
+        damage = damagePerFollower;
+        
+        chargePosition =
+            boss.position +
+            Vector3.right * 0.4f;
+
+        attackPosition =
+            boss.position +
+            Vector3.right *
+            Random.Range(2.5f, 3f) +
+            Vector3.forward *
+            Random.Range(-2f, 2f);
+    }
+    
+    private void Attack()
+    {
+        hasAttacked = true;
+
+        bossController.TakeDamage(
+            damage
+        );
+
+        FollowerManager.Instance
+            .FollowerFinishedAttack(this);
     }
 }

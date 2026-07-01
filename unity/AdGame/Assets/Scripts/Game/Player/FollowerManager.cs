@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class FollowerManager : MonoBehaviour
 {
     public static FollowerManager Instance;
-
+    private int damagePerFollower;
     [Header("Follower")]
     [SerializeField]
     private GameObject followerPrefab;
 
     [SerializeField]
-    private int maxVisibleFollowers = 500;
+    private int maxVisibleFollowers = 300;
+    [SerializeField]
+    private float maxAttackSpreadTime = 4f;
 
     [Header("Crowd Shape")]
     [SerializeField]
@@ -144,5 +147,85 @@ public class FollowerManager : MonoBehaviour
         Destroy(
             follower.gameObject
         );
+    }
+    
+    public void PrepareAttack(BossController boss)
+    {
+        if (followers.Count == 0)
+        {
+            damagePerFollower = 0;
+            return;
+        }
+
+        damagePerFollower =
+            Mathf.CeilToInt(
+                CrowdManager.Instance.CurrentCount /
+                (float)followers.Count
+            );
+
+        StartCoroutine(
+            SendFollowersCoroutine(boss)
+        );
+    }
+    
+    private IEnumerator SendFollowersCoroutine(
+        BossController boss
+    )
+    {
+        float attackInterval = 0f;
+
+        if (followers.Count > 1)
+        {
+            attackInterval =
+                maxAttackSpreadTime /
+                (followers.Count - 1);
+        }
+
+        List<Follower> attackingFollowers =
+            new List<Follower>(followers);
+
+        foreach (Follower follower in attackingFollowers)
+        {
+            follower.AttackBoss(
+                boss.transform,
+                boss,
+                damagePerFollower
+            );
+
+            yield return new WaitForSeconds(
+                attackInterval
+            );
+        }
+    }
+    
+    public void FollowerFinishedAttack(
+        Follower follower
+    )
+    {
+        followers.Remove(follower);
+
+        Destroy(follower.gameObject);
+
+        BossController boss =
+            FindObjectOfType<BossController>();
+
+        if (boss == null)
+        {
+            return;
+        }
+
+        if (boss.IsDead)
+        {
+            FindObjectOfType<GameManager>()
+                .EndGameWin();
+
+            return;
+        }
+
+        if (followers.Count == 0)
+        {
+            FindObjectOfType<GameManager>()
+                .EndGameDefeat();
+        }
     }
 }

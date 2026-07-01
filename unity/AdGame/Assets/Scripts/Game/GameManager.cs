@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Serialization;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,22 +36,11 @@ public class GameManager : MonoBehaviour
         }
         if (Mathf.Abs(player.position.x - boss.transform.position.x) <= bossFightDistance)
         {
-            ResolveBossFight();
+            gameFinished = true;
+            StartCoroutine(BossFightCoroutine());
         }
     }
-
-    private void ResolveBossFight()
-    {
-        if (boss.IsDefeated())
-        {
-            EndGameWin();
-        }
-        else
-        {
-            EndGameDefeat();
-        }
-        
-    }
+    
 
     public void EndGameDefeat()
     {
@@ -74,4 +64,21 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerMovement>().CanMove = false;
         player.GetComponent<PlayerMovement>().animator.SetBool("CanMove", false);
     }
+    private IEnumerator BossFightCoroutine()
+    {
+        PlayerMovement movement =
+            player.GetComponent<PlayerMovement>();
+
+        movement.CanMove = false;
+        movement.animator.SetBool("CanMove", false);
+        
+
+        yield return new WaitForSeconds(1.5f);
+
+        FollowerManager.Instance.PrepareAttack(
+            boss
+        );
+        
+    }
+    
 }
