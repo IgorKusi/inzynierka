@@ -30,6 +30,8 @@ public class FollowerManager : MonoBehaviour
 
     [SerializeField]
     private float laneLimit = 5f;
+    
+    public bool bossFightFinished = false;
 
     private readonly List<Follower> followers = new();
 
@@ -184,8 +186,13 @@ public class FollowerManager : MonoBehaviour
         List<Follower> attackingFollowers =
             new List<Follower>(followers);
 
+        
         foreach (Follower follower in attackingFollowers)
         {
+            if (bossFightFinished)
+            {
+                yield break;
+            }
             follower.AttackBoss(
                 boss.transform,
                 boss,
@@ -202,6 +209,10 @@ public class FollowerManager : MonoBehaviour
         Follower follower
     )
     {
+        if (bossFightFinished)
+        {
+            return;
+        }
         followers.Remove(follower);
 
         Destroy(follower.gameObject);
@@ -219,6 +230,7 @@ public class FollowerManager : MonoBehaviour
             FindObjectOfType<GameManager>()
                 .EndGameWin();
 
+            bossFightFinished = true;
             return;
         }
 
@@ -226,6 +238,7 @@ public class FollowerManager : MonoBehaviour
         {
             FindObjectOfType<GameManager>()
                 .EndGameDefeat();
+            bossFightFinished = true;
         }
     }
 }
