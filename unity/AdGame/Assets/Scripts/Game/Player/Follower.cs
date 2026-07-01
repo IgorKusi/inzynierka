@@ -23,13 +23,14 @@ public class Follower : MonoBehaviour
     private Vector3 attackPosition;
     private bool chargingBoss;
     private Vector3 chargePosition;
-    private void Start()
+    private void Awake()
     {
         if (animator == null)
         {
             animator = GetComponent<Animator>();
-            animator.SetBool("CanMove", false);
         }
+        animator.SetBool("CanMove", false);
+        Debug.Log("Animator can move bool:" + animator.GetBool("CanMove") );
     }
 
     public void SetLeader(Transform newLeader)
@@ -101,6 +102,7 @@ public class Follower : MonoBehaviour
 
         if (leader == null)
         {
+            Debug.Log("Leader is null");
             return;
         }
 
@@ -138,7 +140,9 @@ public class Follower : MonoBehaviour
         }
 
         bool canMove =
-            leader.GetComponent<PlayerMovement>().CanMove;
+            leader.GetComponent<Animator>().GetBool("CanMove");
+        Debug.Log("Follower can move bool:" + canMove);
+        Debug.Log("Leader: " + leader);
 
         animator.SetBool("CanMove", canMove);
     }

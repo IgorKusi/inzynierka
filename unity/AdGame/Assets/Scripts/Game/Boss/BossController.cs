@@ -3,13 +3,12 @@ using TMPro;
 
 public class BossController : MonoBehaviour
 {
-    
-    
     [SerializeField]
     private int bossPower = 500;
     private int currentHealth;
     [SerializeField]
     private TMP_Text powerText;
+    
 
     private void Start()
     {
@@ -66,6 +65,24 @@ public class BossController : MonoBehaviour
         get
         {
             return currentHealth <= 0;
+        }
+    }
+
+    public void InvokeAttackAnimation()
+    {
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetBool("bossFightStarted", true);
+        }
+    }
+
+    public void StopAttackAnimation()
+    {
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetBool("bossFightStarted", false);
         }
     }
     

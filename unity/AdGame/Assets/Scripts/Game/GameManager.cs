@@ -71,9 +71,10 @@ public class GameManager : MonoBehaviour
 
         movement.CanMove = false;
         movement.animator.SetBool("CanMove", false);
-        
-
+        boss.InvokeAttackAnimation();
         yield return new WaitForSeconds(1.5f);
+        boss.StopAttackAnimation();
+        
 
         FollowerManager.Instance.PrepareAttack(
             boss

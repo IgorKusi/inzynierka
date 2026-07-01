@@ -4,6 +4,7 @@ using System.Collections;
 
 public class FollowerManager : MonoBehaviour
 {
+    private PlayerMovement  playerMovement;
     public static FollowerManager Instance;
     private int damagePerFollower;
     [Header("Follower")]
@@ -38,6 +39,7 @@ public class FollowerManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        playerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     private void Start()
@@ -74,7 +76,7 @@ public class FollowerManager : MonoBehaviour
         Follower follower =
             followerObject.GetComponent<Follower>();
 
-        follower.SetLeader(transform);
+        follower.SetLeader(playerMovement.transform);
 
         float density =
             followers.Count /

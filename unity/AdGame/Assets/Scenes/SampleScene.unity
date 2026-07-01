@@ -934,7 +934,7 @@ MonoBehaviour:
   trackLen: 5
   trackSegmentPrefab: {fileID: 681644862304557296, guid: 15a39b614b4ee5042bfb917c28a7ef6a, type: 3}
   bossArenaPrefab: {fileID: 4368493319781776080, guid: 038c1f5cdb059d04ea22ee3a37e04e3e, type: 3}
-  bossPrefab: {fileID: 9071757198909235018, guid: 41514c91c2dcdfe41a57f91336ac8cdd, type: 3}
+  bossPrefab: {fileID: 2792102634703847604, guid: 0002f960c8fb76a4da2be7a8677822bf, type: 3}
   playerPrefab: {fileID: 9071757198909235018, guid: 496636d1f0a29ad47afb8c1e3ea02c71, type: 3}
   gameManager: {fileID: 306845518}
   trapSegmentPrefabs:
