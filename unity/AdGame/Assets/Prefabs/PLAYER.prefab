@@ -358,9 +358,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FollowerManager
   followerPrefab: {fileID: 2054447376838190183, guid: 8029ef0723e106b498cd0c0b6f4f0a7f, type: 3}
   maxVisibleFollowers: 300
-  maxAttackSpreadTime: 2
-  minCrowdWidth: 2.38
-  maxCrowdWidth: 5.79
+  maxAttackSpreadTime: 1
+  minCrowdWidth: 2
+  maxCrowdWidth: 3
   minCrowdLength: 1
   maxCrowdLength: 8
   laneLimit: 5
