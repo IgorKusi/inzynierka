@@ -133,6 +133,7 @@ export default function AdminPage() {
         navigate("/");
     };
 
+    // @ts-ignore
     return (
 
         <div

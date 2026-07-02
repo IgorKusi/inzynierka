@@ -1,106 +1,164 @@
-import {
-    useState
-} from "react";
-
-import {
-    useNavigate
-} from "react-router-dom";
-
-import { API_URL }
-    from "../config";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config";
 
 export default function RegisterPage() {
 
-    const navigate =
-        useNavigate();
+    const navigate = useNavigate();
 
-    const [email, setEmail] =
-        useState("");
+    const [email, setEmail] = useState("");
 
-    const [password, setPassword] =
-        useState("");
+    const [password, setPassword] = useState("");
 
-    const register =
-        async () => {
+    const [error, setError] = useState("");
 
-            const response =
-                await fetch(
-                    `${API_URL}/users/register`,
-                    {
-                        method: "POST",
+    const register = async () => {
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+        setError("");
 
-                        body: JSON.stringify({
-                            email,
-                            password,
-                            role: "ADVERTISER"
-                        })
-                    }
-                );
+        const response =
+            await fetch(
+                `${API_URL}/users/register`,
+                {
+                    method: "POST",
 
-            if (response.ok) {
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                navigate("/login");
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        role: "ADVERTISER"
+                    })
+                }
+            );
 
-            } else {
+        if (response.ok) {
 
-                const error =
-                    await response.json();
+            navigate("/login");
 
-                alert(
-                    error.error
-                );
-            }
-        };
+        } else {
+
+            const error =
+                await response.json();
+
+            setError(error.error);
+        }
+    };
 
     return (
 
-        <div
-            style={{
-                minHeight: "100vh",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "15px"
-            }}
-        >
+        <div className="page">
 
-            <h1>
-                Register
-            </h1>
-
-            <input
-                placeholder="Email"
-                value={email}
-                onChange={(e) =>
-                    setEmail(
-                        e.target.value
-                    )
-                }
-            />
-
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) =>
-                    setPassword(
-                        e.target.value
-                    )
-                }
-            />
-
-            <button
-                onClick={register}
+            <div
+                className="card"
+                style={{
+                    maxWidth: "450px"
+                }}
             >
-                Register
-            </button>
+
+                <div
+                    className="back-button"
+                    onClick={() => navigate("/")}
+                >
+                    ← Home
+                </div>
+
+                <h1 className="title">
+                    Create account
+                </h1>
+
+                <p className="subtitle">
+                    Create an advertiser account and start building interactive campaigns.
+                </p>
+
+                <div className="section">
+
+                    <label className="label">
+                        Email
+                    </label>
+
+                    <input
+                        className="input"
+                        type="email"
+                        placeholder="your@email.com"
+                        value={email}
+                        onChange={(e) =>
+                            setEmail(e.target.value)
+                        }
+                    />
+
+                </div>
+
+                <div className="section">
+
+                    <label className="label">
+                        Password
+                    </label>
+
+                    <input
+                        className="input"
+                        type="password"
+                        placeholder="••••••••"
+                        value={password}
+                        onChange={(e) =>
+                            setPassword(e.target.value)
+                        }
+                    />
+
+                </div>
+
+                <button
+                    className="button"
+                    onClick={register}
+                >
+                    Create account
+                </button>
+
+                {error && (
+
+                    <p
+                        style={{
+                            marginTop: 20,
+                            color: "#dc2626",
+                            textAlign: "center"
+                        }}
+                    >
+                        {error}
+                    </p>
+
+                )}
+
+                <p
+                    style={{
+                        marginTop: 30,
+                        textAlign: "center",
+                        color: "#6b7280"
+                    }}
+                >
+                    Already have an account?
+                    {" "}
+
+                    <span
+                        style={{
+                            color: "#2563eb",
+                            cursor: "pointer",
+                            fontWeight: 600
+                        }}
+                        onClick={() =>
+                            navigate("/login")
+                        }
+                    >
+                        Login
+                    </span>
+
+                </p>
+
+            </div>
 
         </div>
+
     );
 }

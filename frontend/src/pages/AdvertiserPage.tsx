@@ -340,100 +340,143 @@ export default function AdvertiserPage() {
 
     return (
 
-        <div
-            style={{
-                padding: "30px"
-            }}
-        >
+        <div className="page">
 
-            <h1>
-                Advertiser Dashboard
-            </h1>
-
-            <button
-                onClick={logout}
+            <div
+                className="card"
+                style={{
+                    maxWidth: "1100px"
+                }}
             >
-                Logout
-            </button>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        gap: "16px",
+                        marginBottom: "40px"
+                    }}
+                >
 
-            <hr />
+                    <div>
 
-            <h2>
-                Create Advertisement
-            </h2>
+                        <h1
+                            className="title"
+                            style={{
+                                marginBottom: "8px",
+                                textAlign: "left"
+                            }}
+                        >
+                            Advertiser Dashboard
+                        </h1>
 
-            <div>
+                        <p
+                            style={{
+                                color: "#6b7280"
+                            }}
+                        >
+                            Manage your advertising campaigns.
+                        </p>
 
-                <input
-                    type="text"
-                    placeholder="Brand Name"
-                    value={brandName}
-                    onChange={(e) =>
-                        setBrandName(
-                            e.target.value
-                        )
-                    }
+                    </div>
+
+                    <button
+                        className="button"
+                        style={{
+                            width: "180px"
+                        }}
+                        onClick={logout}
+                    >
+                        Logout
+                    </button>
+
+                </div>
+                <h2
+                    style={{
+                        marginBottom: "30px"
+                    }}
+                >
+                    Create Advertisement
+                </h2>
+
+                <div className="section">
+
+                    <label className="label">
+                        Brand name
+                    </label>
+
+                    <input
+                        className="input"
+                        type="text"
+                        placeholder="Brand name"
+                        value={brandName}
+                        onChange={(e) =>
+                            setBrandName(
+                                e.target.value
+                            )
+                        }
+                    />
+
+                </div>
+
+                <div className="section">
+
+                    <label className="label">
+                        Logo
+                    </label>
+
+                    <input
+                        className="input"
+                        type="file"
+                        onChange={(e) =>
+                            setLogoFile(
+                                e.target.files?.[0] ?? null
+                            )
+                        }
+                    />
+
+                </div>
+
+                <div className="section">
+
+                    <label className="label">
+                        Banner
+                    </label>
+
+                    <input
+                        className="input"
+                        type="file"
+                        onChange={(e) =>
+                            setBannerFile(
+                                e.target.files?.[0] ?? null
+                            )
+                        }
+                    />
+
+                </div>
+
+                <button
+                    className="button"
+                    onClick={createAdvertisement}
+                >
+                    Create Advertisement
+                </button>
+
+                <div
+                    style={{
+                        margin: "40px 0",
+                        borderTop: "1px solid #e5e7eb"
+                    }}
                 />
 
-            </div>
-
-            <br />
-
-            <div>
-
-                <label>
-                    Logo:
-                </label>
-
-                <input
-                    type="file"
-                    onChange={(e) =>
-                        setLogoFile(
-                            e.target.files?.[0]
-                            ?? null
-                        )
-                    }
-                />
-
-            </div>
-
-            <br />
-
-            <div>
-
-                <label>
-                    Banner:
-                </label>
-
-                <input
-                    type="file"
-                    onChange={(e) =>
-                        setBannerFile(
-                            e.target.files?.[0]
-                            ?? null
-                        )
-                    }
-                />
-
-            </div>
-
-            <br />
-
-            <button
-                onClick={
-                    createAdvertisement
-                }
-            >
-                Create Advertisement
-            </button>
-
-            <hr />
-
-            <hr />
-
-            <h2>
-                Moje reklamy
-            </h2>
+                <h2
+                    style={{
+                        marginBottom: "24px"
+                    }}
+                >
+                    Your Campaigns
+                </h2>
 
             {
                 advertisements.length === 0 &&
@@ -444,184 +487,391 @@ export default function AdvertiserPage() {
                 )
             }
 
-            {
-                advertisements.map(
-                    advertisement => (
+                {
+                    advertisements.map(advertisement => (
 
                         <div
-                            key={
-                                advertisement.id
-                            }
+                            key={advertisement.id}
                             style={{
-                                border:
-                                    "1px solid white",
-
-                                padding:
-                                    "20px",
-
-                                marginBottom:
-                                    "20px"
+                                background: "#1f2937",
+                                borderRadius: "18px",
+                                padding: "24px",
+                                marginBottom: "30px",
+                                boxShadow: "0 10px 25px rgba(0,0,0,0.25)"
                             }}
                         >
 
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    gap: "30px",
+                                    alignItems: "flex-start",
+                                    justifyContent: "space-between"
+                                }}
+                            >
+
+                                <div
+                                    style={{
+                                        flex: "1",
+                                        minWidth: "260px"
+                                    }}
+                                >
+
+                                    <h2
+                                        style={{
+                                            color: "white",
+                                            fontWeight: 600,
+                                            marginTop: 0,
+                                            marginBottom: "10px"
+                                        }}
+                                    >
+                                        {advertisement.brandName}
+                                    </h2>
+
+                                    <p
+                                        style={{
+                                            color: "#cbd5e1"
+                                        }}
+                                    >
+                                        <b>ID:</b> {advertisement.id}
+                                    </p>
+
+                                    <div
+                                        style={{
+                                            marginTop: "20px"
+                                        }}
+                                    >
+
+                                        <p style={{
+                                            color: "white",
+                                            fontWeight: 600
+                                        }}>
+                                            <b>Logo</b>
+                                        </p>
+
+                                        <img
+                                            src={
+                                                API_URL +
+                                                advertisement.logoPath
+                                            }
+                                            alt="Logo"
+                                            style={{
+                                                width: "130px",
+                                                height: "90px",
+                                                objectFit: "contain",
+                                                borderRadius: "10px",
+                                                background: "white",
+                                                padding: "10px"
+                                            }}
+                                        />
+
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            marginTop: "25px"
+                                        }}
+                                    >
+
+                                        <p style={{
+                                            color: "white",
+                                            fontWeight: 600
+                                        }}>
+                                            <b>Banner</b>
+                                        </p>
+
+                                        <img
+                                            src={
+                                                API_URL +
+                                                advertisement.bannerPath
+                                            }
+                                            alt="Banner"
+                                            style={{
+                                                width: "100%",
+                                                maxWidth: "420px",
+                                                borderRadius: "10px",
+                                                boxShadow: "0 8px 20px rgba(0,0,0,0.25)"
+                                            }}
+                                        />
+
+                                    </div>
+
+                                </div>
+
+                                <div
+                                    style={{
+                                        width: "240px",
+                                        textAlign: "center"
+                                    }}
+                                >
+
+                                    <h3 style={{
+                                        color: "white",
+                                        fontWeight: 600
+                                    }}>
+                                        QR Code
+                                    </h3>
+
+                                    {
+                                        advertisement.qrCode && (
+
+                                            <img
+                                                src={advertisement.qrCode}
+                                                alt="QR Code"
+                                                style={{
+                                                    width: "200px",
+                                                    borderRadius: "12px",
+                                                    background: "white",
+                                                    padding: "10px"
+                                                }}
+                                            />
+                                        )
+                                    }
+
+                                    <p
+                                        style={{
+                                            wordBreak: "break-word",
+                                            fontSize: "12px",
+                                            color: "#94a3b8",
+                                            marginTop: "12px"
+                                        }}
+                                    >
+                                        {advertisement.qrCodeUrl}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <hr
+                                style={{
+                                    margin: "30px 0"
+                                }}
+                            />
+
                             <h3>
-                                {
-                                    advertisement.brandName
-                                }
+                                Statistics
                             </h3>
 
-                            <p>
-                                ID:
-                                {" "}
-                                {
-                                    advertisement.id
-                                }
-                            </p>
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns:
+                                        "repeat(auto-fit, minmax(180px,1fr))",
+                                    gap: "15px",
+                                    marginBottom: "25px"
+                                }}
+                            >
 
-                            <img
-                                src={
-                                    API_URL +
-                                    advertisement.logoPath
-                                }
-                                alt="Logo"
-                                width="120"
-                            />
+                                <div
+                                    style={{
+                                        background: "#374151",
+                                        borderRadius: "12px",
+                                        padding: "18px",
+                                        textAlign: "center",
+                                        color: "white"
+                                    }}
+                                >
 
-                            <br />
-                            <br />
-
-                            <img
-                                src={
-                                    API_URL +
-                                    advertisement.bannerPath
-                                }
-                                alt="Banner"
-                                width="300"
-                            />
-
-                            <p>
-
-                                QR:
-
-                                {" "}
-
-                                {
-                                    advertisement.qrCodeUrl
-                                }
-
-                            </p>
-                            {
-                                advertisement.qrCode && (
-
-                                    <img
-                                        src={
-                                            advertisement.qrCode
-                                        }
-                                        alt="QR Code"
+                                    <div
                                         style={{
-                                            width: "200px"
+                                            fontSize: "14px",
+                                            color: "#cbd5e1"
                                         }}
-                                    />
-                                )
-                            }
+                                    >
+                                        Launches
+                                    </div>
 
-                            <hr />
+                                    <div
+                                        style={{
+                                            fontSize: "28px",
+                                            fontWeight: "bold",
+                                            marginTop: "8px"
+                                        }}
+                                    >
+                                        {stats[advertisement.id]?.launchCount ?? 0}
+                                    </div>
 
-                            <h4>
-                                Statistics
-                            </h4>
+                                </div>
 
-                            <p>
-                                Launches:
-                                {" "}
-                                {
-                                    stats[
-                                        advertisement.id
-                                        ]?.launchCount ?? 0
-                                }
-                            </p>
+                                <div
+                                    style={{
+                                        background: "#374151",
+                                        borderRadius: "12px",
+                                        padding: "18px",
+                                        textAlign: "center",
+                                        color: "white"
+                                    }}
+                                >
 
-                            <p>
-                                Generated coupons:
-                                {" "}
-                                {
-                                    stats[
-                                        advertisement.id
-                                        ]?.totalCoupons ?? 0
-                                }
-                            </p>
+                                    <div
+                                        style={{
+                                            fontSize: "14px",
+                                            color: "#cbd5e1"
+                                        }}
+                                    >
+                                        Generated Coupons
+                                    </div>
 
-                            <p>
-                                Used coupons:
-                                {" "}
-                                {
-                                    stats[
-                                        advertisement.id
-                                        ]?.usedCoupons ?? 0
-                                }
-                            </p>
+                                    <div
+                                        style={{
+                                            fontSize: "28px",
+                                            fontWeight: "bold",
+                                            marginTop: "8px"
+                                        }}
+                                    >
+                                        {stats[advertisement.id]?.totalCoupons ?? 0}
+                                    </div>
 
-                            <p>
-                                Unused coupons:
-                                {" "}
-                                {
-                                    stats[
-                                        advertisement.id
-                                        ]?.unusedCoupons ?? 0
-                                }
-                            </p>
+                                </div>
 
-                            <p>
-                                Conversion:
-                                {" "}
-                                {
-                                    stats[
-                                        advertisement.id
-                                        ]?.conversionRate ?? 0
-                                }
-                                %
-                            </p>
+                                <div
+                                    style={{
+                                        background: "#374151",
+                                        borderRadius: "12px",
+                                        padding: "18px",
+                                        textAlign: "center",
+                                        color: "white"
+                                    }}
+                                >
 
-                            <button
-                                onClick={() =>
-                                    navigator
-                                        .clipboard
-                                        .writeText(
-                                            advertisement.qrCodeUrl ??
-                                            ""
+                                    <div
+                                        style={{
+                                            fontSize: "14px",
+                                            color: "#cbd5e1"
+                                        }}
+                                    >
+                                        Used Coupons
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            fontSize: "28px",
+                                            fontWeight: "bold",
+                                            marginTop: "8px"
+                                        }}
+                                    >
+                                        {stats[advertisement.id]?.usedCoupons ?? 0}
+                                    </div>
+
+                                </div>
+
+                                <div
+                                    style={{
+                                        background: "#374151",
+                                        borderRadius: "12px",
+                                        padding: "18px",
+                                        textAlign: "center",
+                                        color: "white"
+                                    }}
+                                >
+
+                                    <div
+                                        style={{
+                                            fontSize: "14px",
+                                            color: "#cbd5e1"
+                                        }}
+                                    >
+                                        Unused Coupons
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            fontSize: "28px",
+                                            fontWeight: "bold",
+                                            marginTop: "8px"
+                                        }}
+                                    >
+                                        {stats[advertisement.id]?.unusedCoupons ?? 0}
+                                    </div>
+
+                                </div>
+
+                                <div
+                                    style={{
+                                        background: "#374151",
+                                        borderRadius: "12px",
+                                        padding: "18px",
+                                        textAlign: "center",
+                                        color: "white"
+                                    }}
+                                >
+
+                                    <div
+                                        style={{
+                                            fontSize: "14px",
+                                            color: "#cbd5e1"
+                                        }}
+                                    >
+                                        Conversion Rate
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            fontSize: "28px",
+                                            fontWeight: "bold",
+                                            marginTop: "8px"
+                                        }}
+                                    >
+                                        {stats[advertisement.id]?.conversionRate ?? 0}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    gap: "15px",
+                                    marginTop: "15px"
+                                }}
+                            >
+
+                                <button
+                                    onClick={() =>
+                                        navigator.clipboard.writeText(
+                                            advertisement.qrCodeUrl ?? ""
                                         )
-                                }
-                            >
-                                Copy QR Link
-                            </button>
-                            <button
-                                onClick={() =>
-                                    downloadQr(
-                                        advertisement.qrCode!,
-                                        advertisement.brandName
-                                    )
-                                }
-                            >
-                                Download QR
-                            </button>
+                                    }
+                                >
+                                    Copy QR Link
+                                </button>
 
-                            {" "}
+                                <button
+                                    onClick={() =>
+                                        downloadQr(
+                                            advertisement.qrCode!,
+                                            advertisement.brandName
+                                        )
+                                    }
+                                >
+                                    Download QR
+                                </button>
 
-                            <button
-                                onClick={() =>
-                                    deleteAdvertisement(
-                                        advertisement.id
-                                    )
-                                }
-                            >
-                                Delete
-                            </button>
+                                <button
+                                    onClick={() =>
+                                        deleteAdvertisement(
+                                            advertisement.id
+                                        )
+                                    }
+                                    style={{
+                                        background: "#dc2626",
+                                        color: "white",
+                                        marginLeft: "10px"
+                                    }}
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
 
                         </div>
-                    )
-                )
-            }
-
+                    ))
+                }
+            </div>
         </div>
     );
 }

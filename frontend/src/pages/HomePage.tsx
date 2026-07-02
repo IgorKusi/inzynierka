@@ -6,37 +6,57 @@ export default function HomePage() {
 
     return (
 
-        <div
-            style={{
-                minHeight: "100vh",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "20px"
-            }}
-        >
+        <div className="page">
 
-            <h1>
-                AdGame System
-            </h1>
+            <div className="card">
 
-            <button
-                onClick={() =>
-                    navigate("/login")
-                }
-            >
-                Login
-            </button>
+                <h1 className="title">
+                    AdGame
+                </h1>
 
-            <button
-                onClick={() =>
-                    navigate("/register")
-                }
-            >
-                Register
-            </button>
+                <p className="subtitle">
+                    Interactive advertising platform powered by Unity.
+                    <br />
+                    Create playable advertisements and reward players
+                    with personalized discount coupons.
+                </p>
+
+                <div className="section">
+
+                    <button
+                        className="button"
+                        onClick={() => navigate("/login")}
+                    >
+                        Login
+                    </button>
+
+                </div>
+
+                <div className="section">
+
+                    <button
+                        className="button"
+                        onClick={() => navigate("/register")}
+                    >
+                        Create account
+                    </button>
+
+                </div>
+
+                <p
+                    style={{
+                        textAlign: "center",
+                        marginTop: 20,
+                        color: "#888",
+                        fontSize: 14
+                    }}
+                >
+                    React • Unity • Node.js • PostgreSQL
+                </p>
+
+            </div>
 
         </div>
+
     );
 }
