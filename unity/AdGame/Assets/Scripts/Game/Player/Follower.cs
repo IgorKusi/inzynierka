@@ -23,6 +23,9 @@ public class Follower : MonoBehaviour
     private Vector3 attackPosition;
     private bool chargingBoss;
     private Vector3 chargePosition;
+    
+    [SerializeField]
+    private GameObject particlesPrefab;
     private void Awake()
     {
         if (animator == null)
@@ -183,5 +186,15 @@ public class Follower : MonoBehaviour
 
         FollowerManager.Instance
             .FollowerFinishedAttack(this);
+    }
+
+    public void PlayPatricles()
+    {
+        if (particlesPrefab != null)
+        {
+            Instantiate(particlesPrefab, transform.position, transform.rotation);
+            return;
+        }
+        Debug.LogError("Particle system not assigned in inspector");
     }
 }

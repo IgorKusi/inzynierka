@@ -216,6 +216,8 @@ public class FollowerManager : MonoBehaviour
             return;
         }
         followers.Remove(follower);
+        
+        follower.PlayPatricles();
 
         Destroy(follower.gameObject);
 
