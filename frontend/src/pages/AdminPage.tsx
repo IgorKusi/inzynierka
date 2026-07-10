@@ -322,7 +322,7 @@ export default function AdminPage() {
                                 Coupons:
                                 {" "}
                                 {
-                                    advertisement.coupons.length ?? 0
+                                    advertisement.coupons?.length ?? 0
                                 }
                             </p>
 
@@ -330,7 +330,7 @@ export default function AdminPage() {
                                 Used coupons:
                                 {" "}
                                 {
-                                    advertisement.coupons.filter(
+                                    advertisement.coupons?.filter(
                                         coupon =>
                                             coupon.isUsed
                                     ).length ?? 0
