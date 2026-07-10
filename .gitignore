@@ -21,8 +21,10 @@ backend/node_modules/
 backend/.env
 
 backend/uploads/*
-
 !backend/uploads/.gitkeep
+
+backend/vouchers/*
+!backend/vouchers/.gitkeep
 
 ########################################
 # Unity
@@ -67,6 +69,8 @@ sysinfo.txt
 ########################################
 
 *.log
+
 /unity/AdGame/Assets/TextMesh Pro
-/frontend/public/unity/Build
-/frontend/public/unity/AdGame_BurstDebugInformation_DoNotShip
+
+# Nie wrzucamy tylko informacji debugowych Bursta
+/frontend/public/unity/AdGame_BurstDebugInformation_DoNotShip/
