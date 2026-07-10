@@ -25,7 +25,7 @@ public class VoucherGenerator : MonoBehaviour
     [Header("Backend")]
     [SerializeField]
     private string uploadUrl =
-        "http://localhost:3000/voucher/upload";
+        "https://inzynierka-backend-5h4t.onrender.com/voucher/upload";
 
     private void Awake()
     {
@@ -168,7 +168,7 @@ public class VoucherGenerator : MonoBehaviour
                 );
 
             string url =
-                "http://localhost:3000/vouchers/" +
+                "https://inzynierka-backend-5h4t.onrender.com/vouchers/" +
                 response.fileName;
 
             Application.OpenURL(url);

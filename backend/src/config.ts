@@ -1,6 +1,6 @@
 export const FRONTEND_URL =
     process.env.FRONTEND_URL
-    || "http://192.168.18.4:5173";
+    || "https://adgame-chi.vercel.app";
 
 export const API_URL =
     process.env.API_URL
