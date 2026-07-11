@@ -765,7 +765,7 @@ MonoBehaviour:
   qr: {fileID: 1269649616}
   brand: {fileID: 130169947}
   coupon: {fileID: 1603429943}
-  uploadUrl: http://localhost:3000/voucher/upload
+  uploadUrl: https://inzynierka-backend-5h4t.onrender.com/voucher/upload
 --- !u!4 &243868941
 Transform:
   m_ObjectHideFlags: 0
