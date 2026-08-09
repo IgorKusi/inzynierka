@@ -34,9 +34,7 @@ const upload = multer({
 
 
 app.use(cors());
-app.use(express.json({
-    limit: "20mb"
-}));
+app.use(express.json({limit: "20mb"}));
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/vouchers", express.static(path.join(process.cwd(), "vouchers")));
 app.use("/advertisements", advertisementRoutes);
@@ -45,9 +43,7 @@ app.use("/voucher", voucherRoutes);
 app.use("/coupons", couponRoutes);
 app.use("/users", userRoutes);
 app.use("/admin", adminRoutes);
-app.get("/", (req, res) => {
-    res.send("AdGame Backend Running");
-});
+app.get("/", (req, res) => {res.send("AdGame Backend Running");});
 
 const PORT = process.env.PORT || 3000;
 
