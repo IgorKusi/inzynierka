@@ -13,11 +13,13 @@ import {
 import {
     getAdminStats,
     getAllUsers,
-    getAdminAdvertisements
+    getAdminAdvertisements,
+    deleteAdminAdvertisement
 }
     from "../controllers/adminController.js";
 
 const router = Router();
+
 
 router.get(
     "/stats",
@@ -26,6 +28,7 @@ router.get(
     getAdminStats
 );
 
+
 router.get(
     "/users",
     authMiddleware,
@@ -33,11 +36,21 @@ router.get(
     getAllUsers
 );
 
+
 router.get(
     "/advertisements",
     authMiddleware,
     adminOnly,
     getAdminAdvertisements
 );
+
+
+router.delete(
+    "/advertisements/:id",
+    authMiddleware,
+    adminOnly,
+    deleteAdminAdvertisement
+);
+
 
 export default router;

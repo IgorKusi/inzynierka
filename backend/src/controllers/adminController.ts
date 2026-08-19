@@ -12,7 +12,6 @@ export const getAdminStats = async (
 
         const advertisers =
             await prisma.user.count({
-
                 where: {
                     role: "ADVERTISER"
                 }
@@ -26,17 +25,30 @@ export const getAdminStats = async (
 
         const couponsUsed =
             await prisma.coupon.count({
-
                 where: {
                     isUsed: true
                 }
             });
 
-        res.json({
+        const advertisementsData =
+            await prisma.advertisement.findMany({
+                select: {
+                    launchCount: true
+                }
+            });
 
+        const launches =
+            advertisementsData.reduce(
+                (sum, advertisement) =>
+                    sum + advertisement.launchCount,
+                0
+            );
+
+        res.json({
             users,
             advertisers,
             advertisements,
+            launches,
             couponsGenerated,
             couponsUsed
         });
@@ -50,6 +62,7 @@ export const getAdminStats = async (
         });
     }
 };
+
 
 export const getAllUsers = async (
     req: any,
@@ -85,6 +98,7 @@ export const getAllUsers = async (
     }
 };
 
+
 export const getAdminAdvertisements =
     async (
         req: any,
@@ -97,12 +111,13 @@ export const getAdminAdvertisements =
                 await prisma.advertisement.findMany({
 
                     include: {
-                        user: {
 
+                        user: {
                             select: {
                                 email: true
                             }
                         },
+
                         coupons: true
                     },
 
@@ -119,6 +134,63 @@ export const getAdminAdvertisements =
 
             res.status(500).json({
                 error: "Database error"
+            });
+        }
+    };
+
+
+export const deleteAdminAdvertisement =
+    async (
+        req: any,
+        res: any
+    ) => {
+
+        try {
+
+            const id =
+                Number(req.params.id);
+
+            if (isNaN(id)) {
+
+                return res.status(400).json({
+                    error:
+                        "Invalid advertisement ID"
+                });
+            }
+
+            const advertisement =
+                await prisma.advertisement.findUnique({
+                    where: {
+                        id
+                    }
+                });
+
+            if (!advertisement) {
+
+                return res.status(404).json({
+                    error:
+                        "Advertisement not found"
+                });
+            }
+
+            await prisma.advertisement.delete({
+                where: {
+                    id
+                }
+            });
+
+            res.json({
+                message:
+                    "Advertisement deleted"
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).json({
+                error:
+                    "Database error"
             });
         }
     };
